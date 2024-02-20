@@ -25,17 +25,6 @@ class ImagesListViewController: UIViewController {
 
         tableView.contentInset = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
     }
-    
-    func configCell(for cell: ImagesListCell, with indexPath: IndexPath) {
-        guard let photo = UIImage(named: photoName[indexPath.row]) else { return }
-        
-        cell.cellImage.image = photo
-        cell.dateLabel.text = dateFormater.string(from: Date())
-        
-        let isLiked = indexPath.row % 2 == 0
-        let imageLiked = isLiked ? UIImage(named: "No Active") : UIImage(named: "Active")
-        cell.likeButton.setImage(imageLiked, for: .normal)
-    }
 }
 
 extension ImagesListViewController: UITableViewDelegate {
@@ -72,5 +61,18 @@ extension ImagesListViewController: UITableViewDataSource {
         configCell(for: imageListCell, with: indexPath)
         
         return imageListCell
+    }
+}
+
+extension ImagesListViewController {
+    func configCell(for cell: ImagesListCell, with indexPath: IndexPath) {
+        guard let photo = UIImage(named: photoName[indexPath.row]) else { return }
+        
+        cell.cellImage.image = photo
+        cell.dateLabel.text = dateFormater.string(from: Date())
+        
+        let isLiked = indexPath.row % 2 == 0
+        let imageLiked = isLiked ? UIImage(named: "No Active") : UIImage(named: "Active")
+        cell.likeButton.setImage(imageLiked, for: .normal)
     }
 }
