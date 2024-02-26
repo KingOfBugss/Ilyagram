@@ -16,7 +16,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Vector" translatesAutoresizingMaskIntoConstraints="NO" id="fNY-W7-Vlx">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="LaunchScreenLogo" translatesAutoresizingMaskIntoConstraints="NO" id="fNY-W7-Vlx">
                                 <rect key="frame" x="150" y="367" width="75" height="78"/>
                             </imageView>
                         </subviews>
@@ -34,6 +34,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Vector" width="75" height="78"/>
+        <image name="LaunchScreenLogo" width="75" height="78"/>
     </resources>
 </document>
