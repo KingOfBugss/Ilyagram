@@ -12,7 +12,7 @@ class ImagesListViewController: UIViewController {
     @IBOutlet private var tableView: UITableView!
     
     private let showSingleImageSegueIdentifire = "ShowSingleImage"
-    private let photoName: [String] = Array(0..<20).map{"\($0)"}
+    private let photosName: [String] = Array(0..<20).map{"\($0)"}
     
     private lazy var dateFormater: DateFormatter = {
         let formater = DateFormatter()
@@ -35,8 +35,8 @@ class ImagesListViewController: UIViewController {
                 assertionFailure("Invalid segue destination")
                 return
             }
-            
-            let image = UIImage(named: photoName[indexPath.row])
+            let imageName = photosName[indexPath.row]
+            let image = UIImage(named: "\(imageName)_full_size") ?? UIImage(named: imageName)
             viewController.image = image
         }
         else {
@@ -51,7 +51,7 @@ extension ImagesListViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        guard let photo = UIImage(named: photoName[indexPath.row]) else {
+        guard let photo = UIImage(named: photosName[indexPath.row]) else {
             return 0
         }
         
@@ -67,7 +67,7 @@ extension ImagesListViewController: UITableViewDelegate {
 
 extension ImagesListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return photoName.count
+        return photosName.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -85,7 +85,7 @@ extension ImagesListViewController: UITableViewDataSource {
 
 extension ImagesListViewController {
     func configCell(for cell: ImagesListCell, with indexPath: IndexPath) {
-        guard let photo = UIImage(named: photoName[indexPath.row]) else { return }
+        guard let photo = UIImage(named: photosName[indexPath.row]) else { return }
         
         cell.cellImage.image = photo
         cell.dateLabel.text = dateFormater.string(from: Date())
