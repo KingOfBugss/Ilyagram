@@ -38,7 +38,6 @@ class SingleImageViewController: UIViewController {
         scrollView.maximumZoomScale = 1.25
         singleImageView.image = image
         scrollView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(scrollView)
         
         NSLayoutConstraint.activate([
             scrollView.topAnchor.constraint(equalTo: view.topAnchor),
@@ -48,18 +47,16 @@ class SingleImageViewController: UIViewController {
         ])
         
         singleImageView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(singleImageView)
         view.bringSubviewToFront(backButton)
         
         NSLayoutConstraint.activate([
-            singleImageView.topAnchor.constraint(equalTo: view.topAnchor),
-            singleImageView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            singleImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            singleImageView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+            singleImageView.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            singleImageView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+            singleImageView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            singleImageView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor)
         ])
         
         backButton.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(backButton)
         
         NSLayoutConstraint.activate([
             backButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 9),
@@ -69,7 +66,6 @@ class SingleImageViewController: UIViewController {
         ])
         
         shareButton.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(shareButton)
         
         NSLayoutConstraint.activate([
             shareButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0),
