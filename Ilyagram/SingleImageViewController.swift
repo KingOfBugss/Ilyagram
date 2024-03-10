@@ -16,17 +16,17 @@ class SingleImageViewController: UIViewController {
         }
     }
     
-    @IBOutlet weak var singleImageView: UIImageView!
-    @IBOutlet weak var backButton: UIButton!
-    @IBOutlet weak var scrollView: UIScrollView!
-    @IBOutlet weak var shareButton: UIButton!
+    @IBOutlet private var singleImageView: UIImageView!
+    @IBOutlet private var backButton: UIButton!
+    @IBOutlet private var scrollView: UIScrollView!
+    @IBOutlet private var shareButton: UIButton!
     
     
-    @IBAction func didTapeBackward(_ sender: Any) {
+    @IBAction private func didTapeBackward(_ sender: Any) {
         dismiss(animated: true)
     }
 
-    @IBAction func didTapeShareButton(_ sender: UIButton) {
+    @IBAction private func didTapeShareButton(_ sender: UIButton) {
         let share = UIActivityViewController(activityItems: [image as Any], applicationActivities: nil)
         
         present(share, animated: true, completion: nil)
@@ -68,8 +68,11 @@ class SingleImageViewController: UIViewController {
         shareButton.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            shareButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0),
-            shareButton.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor)])
+            shareButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 30),
+            shareButton.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
+            shareButton.widthAnchor.constraint(equalToConstant: 50),
+            shareButton.heightAnchor.constraint(equalToConstant: 50)
+        ])
         
         rescaleAndCenterImageInScrollView(image: image)
     }
