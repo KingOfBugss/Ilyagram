@@ -16,7 +16,7 @@
 		267F70772B81394E006CA194 /* ImageListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 267F70762B81394E006CA194 /* ImageListCell.swift */; };
 		267F707A2B84FF10006CA194 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 267F70792B84FF10006CA194 /* ProfileViewController.swift */; };
 		267F707D2B8D3228006CA194 /* SingleImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 267F707C2B8D3228006CA194 /* SingleImageViewController.swift */; };
-		267F70812B98EB14006CA194 /* SF-Pro.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 267F707F2B98EB14006CA194 /* SF-Pro.ttf */; };
+		267F70842B9F7551006CA194 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 267F70832B9F7551006CA194 /* Constants.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,7 +31,7 @@
 		267F70762B81394E006CA194 /* ImageListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageListCell.swift; sourceTree = "<group>"; };
 		267F70792B84FF10006CA194 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		267F707C2B8D3228006CA194 /* SingleImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleImageViewController.swift; sourceTree = "<group>"; };
-		267F707F2B98EB14006CA194 /* SF-Pro.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "SF-Pro.ttf"; path = "../../../../../Library/Fonts/SF-Pro.ttf"; sourceTree = "<group>"; };
+		267F70832B9F7551006CA194 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -48,7 +48,6 @@
 		267F70362B7BC767006CA194 = {
 			isa = PBXGroup;
 			children = (
-				267F707F2B98EB14006CA194 /* SF-Pro.ttf */,
 				267F70412B7BC767006CA194 /* Ilyagram */,
 				267F70402B7BC767006CA194 /* Products */,
 			);
@@ -65,15 +64,16 @@
 		267F70412B7BC767006CA194 /* Ilyagram */ = {
 			isa = PBXGroup;
 			children = (
-				267F707B2B8D0893006CA194 /* Profile */,
-				267F70782B8139A6006CA194 /* ImageList */,
+				267F70832B9F7551006CA194 /* Constants.swift */,
 				267F70422B7BC767006CA194 /* AppDelegate.swift */,
 				267F70442B7BC767006CA194 /* SceneDelegate.swift */,
+				267F70822B9F74F7006CA194 /* SingleImage */,
+				267F707B2B8D0893006CA194 /* Profile */,
+				267F70782B8139A6006CA194 /* ImageList */,
 				267F70482B7BC767006CA194 /* Main.storyboard */,
 				267F704B2B7BC769006CA194 /* Assets.xcassets */,
 				267F704D2B7BC769006CA194 /* LaunchScreen.storyboard */,
 				267F70502B7BC769006CA194 /* Info.plist */,
-				267F707C2B8D3228006CA194 /* SingleImageViewController.swift */,
 			);
 			path = Ilyagram;
 			sourceTree = "<group>";
@@ -93,6 +93,14 @@
 				267F70792B84FF10006CA194 /* ProfileViewController.swift */,
 			);
 			path = Profile;
+			sourceTree = "<group>";
+		};
+		267F70822B9F74F7006CA194 /* SingleImage */ = {
+			isa = PBXGroup;
+			children = (
+				267F707C2B8D3228006CA194 /* SingleImageViewController.swift */,
+			);
+			path = SingleImage;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -156,7 +164,6 @@
 				267F704F2B7BC769006CA194 /* LaunchScreen.storyboard in Resources */,
 				267F704C2B7BC769006CA194 /* Assets.xcassets in Resources */,
 				267F704A2B7BC767006CA194 /* Main.storyboard in Resources */,
-				267F70812B98EB14006CA194 /* SF-Pro.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -171,6 +178,7 @@
 				267F70772B81394E006CA194 /* ImageListCell.swift in Sources */,
 				267F707A2B84FF10006CA194 /* ProfileViewController.swift in Sources */,
 				267F70432B7BC767006CA194 /* AppDelegate.swift in Sources */,
+				267F70842B9F7551006CA194 /* Constants.swift in Sources */,
 				267F707D2B8D3228006CA194 /* SingleImageViewController.swift in Sources */,
 				267F70452B7BC767006CA194 /* SceneDelegate.swift in Sources */,
 			);
