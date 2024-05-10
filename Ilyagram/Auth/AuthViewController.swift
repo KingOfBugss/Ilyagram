@@ -7,15 +7,29 @@
 
 import UIKit
 
+protocol AuthViewControllerDelegate: AnyObject {
+    func authViewController(_ vc: AuthViewController, didAuthenticateWithCode code: String)
+}
+
 class AuthViewController: UIViewController {
-        
+    
+    var delegate: AuthViewControllerDelegate?
+    
+    private let showWebViewControllerSegueIdentifire = "SegueToAuth"
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        configureAuthImageView()
+        configurAuthButton()
         configureBackButton()
-        
-        let segue1 = UIStoryboardSegue(identifier: "AuthSegue", source: AuthViewController(), destination: WebViewViewController())
-        
+    }
+    
+    @objc func didTapeAuthButton() {
+        self.navigationController?.pushViewController(WebViewViewController(), animated: true)
+    }
+  
+    private func configureAuthImageView() {
         let authImage = UIImage(named: "Login Screen Image")
         let authImageView = UIImageView(image: authImage)
         
@@ -28,7 +42,9 @@ class AuthViewController: UIViewController {
             authImageView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor),
             authImageView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
         ])
-        
+    }
+    
+    private func configurAuthButton() {
         let authButton = UIButton()
         authButton.setTitle("Войти", for: .normal)
         authButton.titleLabel?.font = .systemFont(ofSize: 17, weight: .bold)
@@ -48,22 +64,29 @@ class AuthViewController: UIViewController {
         ])
     }
     
-    @objc func didTapeAuthButton() {
-
-    self.navigationController?.pushViewController(WebViewViewController(), animated: true)
-    }
-    
-    func configureBackButton() {
+    private func configureBackButton() {
         navigationController?.navigationBar.backIndicatorImage = UIImage(named: "NavBackButton")
         navigationController?.navigationBar.backIndicatorTransitionMaskImage = UIImage(named: "NavBackButton")
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         navigationItem.backBarButtonItem?.tintColor = UIColor(named: "Background")
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == showWebViewControllerSegueIdentifire {
+            guard let webViewViewController = segue.destination as? WebViewViewController
+            else {
+                fatalError("Failed to prepare for \(showWebViewControllerSegueIdentifire)")
+            }
+            webViewViewController.delegate = self
+        } else {
+            super.prepare(for: segue, sender: sender)
+        }
+    }
 }
 
 extension AuthViewController: WebViewViewControllerDelegate {
     func webViewViewController(_ vc: WebViewViewController, didAuthenticateWithCode code: String) {
-        //TODO: process code
+        delegate?.authViewController(self, didAuthenticateWithCode: code)
     }
     
     func webViewViewControllerDidCancel(_ vc: WebViewViewController) {
