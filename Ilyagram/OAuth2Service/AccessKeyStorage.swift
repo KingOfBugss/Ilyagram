@@ -22,11 +22,7 @@ class AccessKeyStorage: AuthTokenStorageProtocol {
     
     var token: String? {
         get {
-            guard let token = usDefault.string(forKey: Token.accessToken.rawValue) else {
-                print("ERROR: with get usDefault value('Key')")
-                return .init()
-            }
-            return token
+            return usDefault.string(forKey: Token.accessToken.rawValue)
         }
     }
     

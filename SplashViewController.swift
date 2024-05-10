@@ -19,8 +19,7 @@ class SplashViewController: UIViewController {
         }
         return window
     }
-
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -42,15 +41,12 @@ class SplashViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-//        if tokenInStorage.token != "" {
-//            switchToTabBarController()
-//            
-//        } else {
+        if let token = tokenInStorage.token {
+            switchToTabBarController()
+            
+        } else {
             switchToAuthViewController()
-//            let authViewCntroller = AuthViewController()
-//            authViewCntroller.delegate = self
-//            self.present(authViewCntroller, animated: true)
-//        }
+        }
     }
     
     private func switchToAuthViewController() {
@@ -72,7 +68,6 @@ class SplashViewController: UIViewController {
 }
 
 extension SplashViewController: AuthViewControllerDelegate {
-    
     func authViewController(_ vc: AuthViewController, didAuthenticateWithCode code: String) {
         dismiss(animated: true) { [weak self] in
             guard let self = self else { return }

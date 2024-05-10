@@ -108,7 +108,6 @@ class OAuth2Service {
                 let json = try? jsonDecoder.decode(OAuthTokenResponseBody.self, from: data)
                 let accessToken = json?.accessToken
                 completion(.success(accessToken ?? ""))
-//                storage.storeAccessKey(newValue: data)
                 self?.currentUrlTask = nil
             case .failure(let error):
                 completion(.failure(error))

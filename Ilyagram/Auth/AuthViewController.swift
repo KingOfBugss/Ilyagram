@@ -26,7 +26,9 @@ class AuthViewController: UIViewController {
     }
     
     @objc func didTapeAuthButton() {
-        self.navigationController?.pushViewController(WebViewViewController(), animated: true)
+        let webView = WebViewViewController()
+        webView.delegate = self
+        self.navigationController?.pushViewController(webView, animated: true)
     }
   
     private func configureAuthImageView() {

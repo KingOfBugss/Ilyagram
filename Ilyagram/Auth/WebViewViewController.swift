@@ -110,7 +110,6 @@ extension WebViewViewController: WKNavigationDelegate {
                  decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
         if let code = code(from: navigationAction) {
             delegate?.webViewViewController(self, didAuthenticateWithCode: code)
-            print("DEANON", delegate)
             decisionHandler(.cancel)
         } else {
             decisionHandler(.allow)
@@ -130,19 +129,6 @@ extension WebViewViewController: WKNavigationDelegate {
             return nil
         }
     }
-    
-//    
-//    func code(from navigationAction: WKNavigationAction) -> String? {
-//        guard let url = navigationAction.request.url,
-//              let urlComponents = URLComponents(string: url.absoluteString),
-//              urlComponents.path == "/oauth/authorize/native",
-//              let items = urlComponents.queryItems?.first(where: { $0.name == "code" })
-//        else { return nil }
-//        
-//        return items.value
-//    }
-//https://unsplash.com/oauth/authorize/native?code=QvRdJrpNfuFOP9Q0m_wF7R-prLkXRCv3GvfbLRujs8o
-
 }
 
 private extension WebViewViewController {
@@ -168,3 +154,5 @@ private extension WebViewViewController {
         uiWkWeb.load(request)
     }
 }
+
+//https://unsplash.com/oauth/authorize/native?code=QvRdJrpNfuFOP9Q0m_wF7R-prLkXRCv3GvfbLRujs8o
