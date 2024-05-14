@@ -35,7 +35,7 @@ final class WebViewViewController: UIViewController {
         
         return view
     }()
-
+    
     private let progresView = UIProgressView()
     private let cache = URLCache()
     
@@ -76,11 +76,11 @@ final class WebViewViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-
+        
         uiWkWeb.addObserver(self, forKeyPath: #keyPath(WKWebView.estimatedProgress), options: .new, context: nil)
         updateProgress()
     }
-
+    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         uiWkWeb.removeObserver(self, forKeyPath: #keyPath(WKWebView.estimatedProgress), context: nil)
