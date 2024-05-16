@@ -100,20 +100,23 @@ class OAuth2Service {
                                      addValue: nil,
                                      forHTTPHeaderField: nil)
         
-        let task = session.data(for: request) { 
+        let task = session.data(for: request) {
             [weak self] result in
             guard let self else { preconditionFailure("Cannot make weak link") }
             switch result {
             case .success(let data):
-                let jsonDecoder = JSONDecoder()
-                jsonDecoder.keyDecodingStrategy = .convertFromSnakeCase
-                let json = try? jsonDecoder.decode(OAuthTokenResponseBody.self, from: data)
-                let accessToken = json?.accessToken
-                completion(.success(accessToken ?? ""))
+                let decoder = JSONDecoderSnakeCase()
+                do {
+                    let json = try decoder.decode(OAuthTokenResponseBody.self, from: data)
+                    completion(.success(json.accessToken))
+                } catch {
+                    print(error.localizedDescription)
+                    completion(.failure(error))
+                }
                 self.currentUrlTask = nil
             case .failure(let error):
+                print(error.localizedDescription)
                 completion(.failure(error))
-                self.lastCode = nil
             }
         }
         self.currentUrlTask = task

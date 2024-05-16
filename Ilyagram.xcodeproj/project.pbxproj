@@ -23,6 +23,7 @@
 		267F708D2BA8E3E8006CA194 /* URLSession+data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 267F708C2BA8E3E8006CA194 /* URLSession+data.swift */; };
 		267F70902BAA0275006CA194 /* AccessKeyStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 267F708F2BAA0275006CA194 /* AccessKeyStorage.swift */; };
 		267F70922BAB3057006CA194 /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 267F70912BAB3057006CA194 /* SplashViewController.swift */; };
+		2695B7C72BF63211003587FC /* JSONDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2695B7C62BF63211003587FC /* JSONDecoder.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,6 +45,7 @@
 		267F708C2BA8E3E8006CA194 /* URLSession+data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLSession+data.swift"; sourceTree = "<group>"; };
 		267F708F2BAA0275006CA194 /* AccessKeyStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessKeyStorage.swift; sourceTree = "<group>"; };
 		267F70912BAB3057006CA194 /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
+		2695B7C62BF63211003587FC /* JSONDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONDecoder.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -133,6 +135,7 @@
 				267F708A2BA89BDD006CA194 /* OAuth2Service.swift */,
 				267F708C2BA8E3E8006CA194 /* URLSession+data.swift */,
 				267F708F2BAA0275006CA194 /* AccessKeyStorage.swift */,
+				2695B7C62BF63211003587FC /* JSONDecoder.swift */,
 			);
 			path = OAuth2Service;
 			sourceTree = "<group>";
@@ -214,6 +217,7 @@
 				267F707A2B84FF10006CA194 /* ProfileViewController.swift in Sources */,
 				267F70432B7BC767006CA194 /* AppDelegate.swift in Sources */,
 				267F70862BA0F1E1006CA194 /* AuthViewController.swift in Sources */,
+				2695B7C72BF63211003587FC /* JSONDecoder.swift in Sources */,
 				267F70922BAB3057006CA194 /* SplashViewController.swift in Sources */,
 				267F70842B9F7551006CA194 /* Constants.swift in Sources */,
 				267F707D2B8D3228006CA194 /* SingleImageViewController.swift in Sources */,

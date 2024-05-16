@@ -12,6 +12,7 @@ enum NetworkError: Error {
     case urlRequestError(Error)
     case urlSessionError
     case invalidRequest
+    case decodingError(Error)
 }
 
 extension URLSession {
@@ -25,13 +26,20 @@ extension URLSession {
         }
         
         let task = dataTask(with: request, completionHandler: { data, response, error in
-            if let data = data, let response = response, let statusCode = (response as? HTTPURLResponse)?.statusCode {
+            if let data = data, let response, let statusCode = (response as? HTTPURLResponse)?.statusCode {
                 if 200 ..< 300 ~= statusCode {
+                    do {
+                      let decoder = JSONDecoderSnakeCase()
+                      let result = try decoder.decode(Data.self, from: data)
+                      fulfillCompletionOnTheMainThread(.success(result))
+                    } catch {
+                      fulfillCompletionOnTheMainThread(.failure(NetworkError.decodingError(error)))
+                    }
                     fulfillCompletionOnTheMainThread(.success(data))
                 } else {
                     fulfillCompletionOnTheMainThread(.failure(NetworkError.httpStatusCode(statusCode)))
                 }
-            } else if let error = error {
+            } else if let error {
                 fulfillCompletionOnTheMainThread(.failure(NetworkError.urlRequestError(error)))
             } else {
                 fulfillCompletionOnTheMainThread(.failure(NetworkError.urlSessionError))
