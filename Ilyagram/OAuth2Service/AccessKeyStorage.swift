@@ -18,15 +18,15 @@ class AccessKeyStorage: AuthTokenStorageProtocol {
         case accessToken
     }
     
-    private let usDefault = UserDefaults.standard
+    private let userDefault = UserDefaults.standard
     
     var token: String? {
         get {
-            return usDefault.string(forKey: Token.accessToken.rawValue)
+            return userDefault.string(forKey: Token.accessToken.rawValue)
         }
     }
     
     func storeAccessKey(newValue: String) {
-        usDefault.setValue(newValue, forKey: Token.accessToken.rawValue)
+        userDefault.setValue(newValue, forKey: Token.accessToken.rawValue)
     }
 }

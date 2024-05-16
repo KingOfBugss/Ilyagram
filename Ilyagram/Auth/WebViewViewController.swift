@@ -134,7 +134,7 @@ extension WebViewViewController: WKNavigationDelegate {
 private extension WebViewViewController {
     func loadAuthView() {
         guard var urlComponents = URLComponents(string: WebViewConstants.unsplashAuthorizeURLString) else {
-            print("Ошибка инициализации URLComponents")
+            print("guard URLComponents")
             return
         }
         
@@ -145,7 +145,7 @@ private extension WebViewViewController {
             URLQueryItem(name: "scope", value: Constants.accessScope)
         ]
         guard let url = urlComponents.url else {
-            print("Ошибка формирования URL")
+            print("guard URL")
             
             return
         }

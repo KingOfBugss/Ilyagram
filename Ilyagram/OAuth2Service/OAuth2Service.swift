@@ -29,7 +29,7 @@ class OAuth2Service {
     let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
     var window: UIWindow {
         guard let window = UIApplication.shared.windows.first else {
-            fatalError("Invalid Configuration: unable to get window from UIApplication")
+            fatalError("Не удалось получить window из UIApplication")
         }
         return window
     }
@@ -102,7 +102,8 @@ class OAuth2Service {
         
         let task = session.data(for: request) {
             [weak self] result in
-            guard let self else { preconditionFailure("Cannot make weak link") }
+            guard let self else { return }
+            
             switch result {
             case .success(let data):
                 let decoder = JSONDecoderSnakeCase()

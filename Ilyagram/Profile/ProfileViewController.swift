@@ -9,9 +9,6 @@ import UIKit
 
 class ProfileViewController: UIViewController {
     
-    @IBAction private func didTapeLogoutButton() {
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         

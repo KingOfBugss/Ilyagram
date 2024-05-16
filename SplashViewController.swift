@@ -15,7 +15,7 @@ class SplashViewController: UIViewController {
 
     var window: UIWindow {
         guard let window = UIApplication.shared.windows.first else {
-            fatalError("Invalid Configuration: unable to get window from UIApplication")
+            fatalError("Не удается получить окно из UIApplication")
         }
         return window
     }
@@ -43,7 +43,6 @@ class SplashViewController: UIViewController {
         
         if let token = tokenInStorage.token {
             switchToTabBarController()
-            
         } else {
             switchToAuthViewController()
         }
@@ -53,7 +52,7 @@ class SplashViewController: UIViewController {
         guard let navigationController = mainStoryboard.instantiateViewController(
             withIdentifier: "NavigationController") as? UINavigationController,
               let authViewController = navigationController.viewControllers[0] as? AuthViewController else {
-            preconditionFailure("Unable to get NavigationController or AuthViewController from Storyboard")
+            preconditionFailure("Не удается получить NavigationController or AuthViewController из Storyboard")
         }
         authViewController.delegate = self
         window.rootViewController = navigationController
@@ -83,7 +82,7 @@ extension SplashViewController: AuthViewControllerDelegate {
                 tokenInStorage.storeAccessKey(newValue: code)
                 self.switchToTabBarController()
             case .failure:
-                print("failure case in fetchOAuthToken = true")
+                print("case .failure in fetchOAuthToken")
                 break
             }
         }
