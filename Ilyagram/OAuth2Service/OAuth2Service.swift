@@ -24,7 +24,6 @@ class OAuth2Service {
     private var currentUrlTask: URLSessionTask?
     private var lastCode: String?
     
-    
     let session = URLSession.shared
     let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
     var window: UIWindow {
@@ -66,7 +65,7 @@ class OAuth2Service {
         return request
     }
     
-    private func makeOAuthTokenRequest(with code: String) -> URLRequest {
+    private func makeOAuthTokenRequest(code: String) -> URLRequest {
         let baseUrl = Constants.defaultBaseURL
         let url = URL(string: "/oauth/token"
                       + "?client_id=\(Constants.accessKey)"
@@ -83,6 +82,7 @@ class OAuth2Service {
     }
     
     func fetchOAuthToken(code: String, completion: @escaping (Result<String, Error>) -> Void) {
+        assert(Thread.isMainThread)
         guard lastCode != code else { return }
         currentUrlTask?.cancel()
         lastCode = code
