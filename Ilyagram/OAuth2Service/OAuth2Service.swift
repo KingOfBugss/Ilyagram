@@ -99,23 +99,14 @@ class OAuth2Service {
                                      requestHttpMethod: "POST",
                                      addValue: nil,
                                      forHTTPHeaderField: nil)
-        
-        let task = session.data(for: request) {
-            [weak self] result in
+  
+        let task = session.load(for: request, decodableType: OAuthTokenResponseBody.self) { [weak self] result in
             guard let self else { return }
             
             switch result {
-            case .success(let data):
-                let decoder = JSONDecoderSnakeCase()
-                do {
-                    let json = try decoder.decode(OAuthTokenResponseBody.self, from: data)
-                    completion(.success(json.accessToken))
-                } catch {
-                    print(error.localizedDescription)
-                    completion(.failure(error))
-                }
-                self.currentUrlTask = nil
-            case .failure(let error):
+            case let .success(decodedObject):
+                completion(.success(decodedObject.accessToken))
+            case let .failure(error):
                 print(error.localizedDescription)
                 completion(.failure(error))
             }

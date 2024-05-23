@@ -16,26 +16,26 @@ enum NetworkError: Error {
 }
 
 extension URLSession {
-    func data(
+    func load<T: Decodable>(
         for request: URLRequest,
-        completion: @escaping (Result<Data, Error>) -> Void) -> URLSessionTask {
-        let fulfillCompletionOnTheMainThread: (Result<Data, Error>) -> Void = { result in
-            DispatchQueue.main.async {
-                completion(result)
+        decodableType: T.Type,
+        completion: @escaping (Result<T, Error>) -> Void) -> URLSessionTask {
+            let fulfillCompletionOnTheMainThread: (Result<T, Error>) -> Void = { result in
+                DispatchQueue.main.async {
+                    completion(result)
             }
         }
         
-        let task = dataTask(with: request, completionHandler: { data, response, error in
+        return dataTask(with: request) { data, response, error in
             if let data = data, let response, let statusCode = (response as? HTTPURLResponse)?.statusCode {
                 if 200 ..< 300 ~= statusCode {
                     do {
-                      let decoder = JSONDecoderSnakeCase()
-                      let result = try decoder.decode(Data.self, from: data)
-                      fulfillCompletionOnTheMainThread(.success(result))
+                        let decoder = JSONDecoderSnakeCase()
+                        let result = try decoder.decode(T.self, from: data)
+                        fulfillCompletionOnTheMainThread(.success(result))
                     } catch {
-                      fulfillCompletionOnTheMainThread(.failure(NetworkError.decodingError(error)))
+                        fulfillCompletionOnTheMainThread(.failure(NetworkError.decodingError(error)))
                     }
-                    fulfillCompletionOnTheMainThread(.success(data))
                 } else {
                     fulfillCompletionOnTheMainThread(.failure(NetworkError.httpStatusCode(statusCode)))
                 }
@@ -44,8 +44,6 @@ extension URLSession {
             } else {
                 fulfillCompletionOnTheMainThread(.failure(NetworkError.urlSessionError))
             }
-        })
-        
-        return task
+        }
     }
 }

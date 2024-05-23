@@ -25,6 +25,9 @@
 		267F70922BAB3057006CA194 /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 267F70912BAB3057006CA194 /* SplashViewController.swift */; };
 		2695B7C72BF63211003587FC /* JSONDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2695B7C62BF63211003587FC /* JSONDecoder.swift */; };
 		26C0F0F22BFA408300FA82DD /* ProgressHUD in Frameworks */ = {isa = PBXBuildFile; productRef = 26C0F0F12BFA408300FA82DD /* ProgressHUD */; };
+		26C0F0F52BFC9D7D00FA82DD /* UIBlockingProgressHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26C0F0F42BFC9D7D00FA82DD /* UIBlockingProgressHUD.swift */; };
+		26C0F0F72BFCD55A00FA82DD /* ProfileService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26C0F0F62BFCD55A00FA82DD /* ProfileService.swift */; };
+		26C0F0F92BFD373F00FA82DD /* UrlRequestBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26C0F0F82BFD373F00FA82DD /* UrlRequestBuilder.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -47,6 +50,9 @@
 		267F708F2BAA0275006CA194 /* AccessKeyStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessKeyStorage.swift; sourceTree = "<group>"; };
 		267F70912BAB3057006CA194 /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
 		2695B7C62BF63211003587FC /* JSONDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONDecoder.swift; sourceTree = "<group>"; };
+		26C0F0F42BFC9D7D00FA82DD /* UIBlockingProgressHUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIBlockingProgressHUD.swift; sourceTree = "<group>"; };
+		26C0F0F62BFCD55A00FA82DD /* ProfileService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileService.swift; sourceTree = "<group>"; };
+		26C0F0F82BFD373F00FA82DD /* UrlRequestBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UrlRequestBuilder.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,6 +87,7 @@
 		267F70412B7BC767006CA194 /* Ilyagram */ = {
 			isa = PBXGroup;
 			children = (
+				26C0F0F32BFBE7E200FA82DD /* Service */,
 				267F70832B9F7551006CA194 /* Constants.swift */,
 				267F70422B7BC767006CA194 /* AppDelegate.swift */,
 				267F70442B7BC767006CA194 /* SceneDelegate.swift */,
@@ -109,6 +116,7 @@
 		267F707B2B8D0893006CA194 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
+				26C0F0F62BFCD55A00FA82DD /* ProfileService.swift */,
 				267F70792B84FF10006CA194 /* ProfileViewController.swift */,
 			);
 			path = Profile;
@@ -135,11 +143,20 @@
 			isa = PBXGroup;
 			children = (
 				267F708A2BA89BDD006CA194 /* OAuth2Service.swift */,
-				267F708C2BA8E3E8006CA194 /* URLSession+data.swift */,
 				267F708F2BAA0275006CA194 /* AccessKeyStorage.swift */,
-				2695B7C62BF63211003587FC /* JSONDecoder.swift */,
 			);
 			path = OAuth2Service;
+			sourceTree = "<group>";
+		};
+		26C0F0F32BFBE7E200FA82DD /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				26C0F0F42BFC9D7D00FA82DD /* UIBlockingProgressHUD.swift */,
+				267F708C2BA8E3E8006CA194 /* URLSession+data.swift */,
+				2695B7C62BF63211003587FC /* JSONDecoder.swift */,
+				26C0F0F82BFD373F00FA82DD /* UrlRequestBuilder.swift */,
+			);
+			path = Service;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -220,6 +237,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				267F70472B7BC767006CA194 /* ImagesListViewController.swift in Sources */,
+				26C0F0F72BFCD55A00FA82DD /* ProfileService.swift in Sources */,
 				267F70902BAA0275006CA194 /* AccessKeyStorage.swift in Sources */,
 				267F70772B81394E006CA194 /* ImageListCell.swift in Sources */,
 				267F707A2B84FF10006CA194 /* ProfileViewController.swift in Sources */,
@@ -227,12 +245,14 @@
 				267F70862BA0F1E1006CA194 /* AuthViewController.swift in Sources */,
 				2695B7C72BF63211003587FC /* JSONDecoder.swift in Sources */,
 				267F70922BAB3057006CA194 /* SplashViewController.swift in Sources */,
+				26C0F0F52BFC9D7D00FA82DD /* UIBlockingProgressHUD.swift in Sources */,
 				267F70842B9F7551006CA194 /* Constants.swift in Sources */,
 				267F707D2B8D3228006CA194 /* SingleImageViewController.swift in Sources */,
 				267F708D2BA8E3E8006CA194 /* URLSession+data.swift in Sources */,
 				267F70892BA32A19006CA194 /* WebViewViewController.swift in Sources */,
 				267F708B2BA89BDD006CA194 /* OAuth2Service.swift in Sources */,
 				267F70452B7BC767006CA194 /* SceneDelegate.swift in Sources */,
+				26C0F0F92BFD373F00FA82DD /* UrlRequestBuilder.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

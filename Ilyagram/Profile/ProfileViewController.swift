@@ -9,14 +9,54 @@ import UIKit
 
 class ProfileViewController: UIViewController {
     
+    private let backButtonImage = UIImage(named: "LogoutButton")
+    private let backButtonImageView = UIImageView()
+    private let avatarImage = UIImage(named: "ProfilePhoto")
+    private var imageAvatarView = UIImageView()
+    private var nameLabel = UILabel()
+    private var loginNameLabel = UILabel()
+    private var descriptionLabel = UILabel()
+    
+    let profileService = ProfileService()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let avatarImage = UIImage(named: "ProfilePhoto")
-        let imageAvatarView = UIImageView(image: avatarImage)
+        makeProfilePhotoImage()
+        makeNameLabel()
+        makeLoginNameLabel()
+        makeDescriptionLabel()
+        makeLogoutButton()
+        
+        fetchProfile()
+    }
+    
+    func fetchProfile() {
+        profileService.fetchProfile { [weak self] profileResult in
+            guard let self else { return }
+            switch profileResult {
+            case .success(let profile):
+                self.nameLabel.text = profile.username
+                self.loginNameLabel.text = profile.loginName
+                self.descriptionLabel.text = profile.bio
+            case .failure(let error):
+                break
+            }
+        }
+    }
+}
 
+extension ProfileViewController {
+    
+    @objc private func didTapBackButton() {
+        
+    }
+    
+    func makeProfilePhotoImage() {
         imageAvatarView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(imageAvatarView)
+
+        imageAvatarView.image = avatarImage
         
         NSLayoutConstraint.activate([
             imageAvatarView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 32),
@@ -24,8 +64,9 @@ class ProfileViewController: UIViewController {
             imageAvatarView.widthAnchor.constraint(equalToConstant: 70),
             imageAvatarView.heightAnchor.constraint(equalToConstant: 70)
         ])
-        
-        let nameLabel = UILabel()
+    }
+    
+    func makeNameLabel() {
         nameLabel.text = "Екатерина Новикова"
         nameLabel.textColor = UIColor.white
         nameLabel.font = UIFont.systemFont(ofSize: 23, weight: .bold)
@@ -36,8 +77,9 @@ class ProfileViewController: UIViewController {
             nameLabel.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 16),
             nameLabel.topAnchor.constraint(equalTo: imageAvatarView.bottomAnchor, constant: 8)
         ])
-        
-        let loginNameLabel = UILabel()
+    }
+    
+    func makeLoginNameLabel() {
         loginNameLabel.text = "@ekaterina_nov"
         loginNameLabel.textColor = UIColor(named: "YP Gray")
         loginNameLabel.font = UIFont.systemFont(ofSize: 13, weight: .medium)
@@ -49,8 +91,9 @@ class ProfileViewController: UIViewController {
             loginNameLabel.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 16),
             loginNameLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 8)
         ])
-        
-        let descriptionLabel = UILabel()
+    }
+    
+    func makeDescriptionLabel() {
         descriptionLabel.text = "Hello, world!"
         descriptionLabel.textColor = UIColor.white
         descriptionLabel.font = UIFont.systemFont(ofSize: 13, weight: .medium)
@@ -62,12 +105,14 @@ class ProfileViewController: UIViewController {
             descriptionLabel.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 16),
             descriptionLabel.topAnchor.constraint(equalTo: loginNameLabel.bottomAnchor, constant: 8)
         ])
-        
-        let backButtonImage = UIImage(named: "LogoutButton")
-        let logoutButton = UIButton.systemButton(with: backButtonImage!,
+    }
+    
+    func makeLogoutButton() {
+       backButtonImageView.image = backButtonImage
+        let logoutButton = UIButton.systemButton(with: backButtonImage!, //FAST UWRAPED!!!!
                                                  target: self,
                                                  action: #selector(self.didTapBackButton))
-
+        
         logoutButton.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(logoutButton)
         
@@ -78,7 +123,4 @@ class ProfileViewController: UIViewController {
             logoutButton.centerYAnchor.constraint(equalTo: imageAvatarView.centerYAnchor)])
     }
     
-    @objc private func didTapBackButton() {
-        
-    }
 }

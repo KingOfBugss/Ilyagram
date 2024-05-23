@@ -50,7 +50,7 @@ class AuthViewController: UIViewController {
         let authButton = UIButton()
         authButton.setTitle("Войти", for: .normal)
         authButton.titleLabel?.font = .systemFont(ofSize: 17, weight: .bold)
-        authButton.setTitleColor(UIColor(named: "Background"), for: .normal)
+        authButton.setTitleColor(UIColor(named: "YP Background"), for: .normal)
         authButton.backgroundColor = UIColor.white
         authButton.addTarget(self, action: #selector(didTapeAuthButton), for: .touchUpInside)
         authButton.layer.cornerRadius = 16
@@ -70,7 +70,7 @@ class AuthViewController: UIViewController {
         navigationController?.navigationBar.backIndicatorImage = UIImage(named: "NavBackButton")
         navigationController?.navigationBar.backIndicatorTransitionMaskImage = UIImage(named: "NavBackButton")
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
-        navigationItem.backBarButtonItem?.tintColor = UIColor(named: "Background")
+        navigationItem.backBarButtonItem?.tintColor = UIColor(named: "YP Background")
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

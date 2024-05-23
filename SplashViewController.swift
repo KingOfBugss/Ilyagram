@@ -13,13 +13,6 @@ class SplashViewController: UIViewController {
     private var tokenInStorage: AuthTokenStorageProtocol = AccessKeyStorage()
  
     let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
-
-    var window: UIWindow {
-        guard let window = UIApplication.shared.windows.first else {
-            fatalError("Не удается получить окно из UIApplication")
-        }
-        return window
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,7 +24,7 @@ class SplashViewController: UIViewController {
             imageView.image = image
             return imageView
         }()
-        view.backgroundColor = UIColor(named: "Background")
+        view.backgroundColor = UIColor(named: "YP Background")
         view.addSubview(logoImageView)
         NSLayoutConstraint.activate([
             logoImageView.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
@@ -56,8 +49,8 @@ class SplashViewController: UIViewController {
             preconditionFailure("Не удается получить NavigationController or AuthViewController из Storyboard")
         }
         authViewController.delegate = self
-        window.rootViewController = navigationController
-        window.makeKeyAndVisible()
+        UIBlockingProgressHUD.window.rootViewController = navigationController
+        UIBlockingProgressHUD.window.makeKeyAndVisible()
     }
     
     private func switchToTabBarController() {
@@ -76,10 +69,10 @@ extension SplashViewController: AuthViewControllerDelegate {
     }
 
     private func fetchOAuthToken(_ code: String) {
-        ProgressHUD.animate()
+        UIBlockingProgressHUD.show()
         oauthService.fetchOAuthToken(code: code) { [weak self] result in
             guard let self = self else { return }
-            ProgressHUD.dismiss()
+            UIBlockingProgressHUD.dissmiss()
             switch result {
             case .success:
                 tokenInStorage.storeAccessKey(newValue: code)

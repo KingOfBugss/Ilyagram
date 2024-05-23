@@ -58,7 +58,7 @@ final class WebViewViewController: UIViewController {
             uiWkWeb.topAnchor.constraint(equalTo: view.topAnchor)
         ])
         
-        progresView.tintColor = UIColor(named: "Background")
+        progresView.tintColor = UIColor(named: "YP Background")
         progresView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(progresView)
         
