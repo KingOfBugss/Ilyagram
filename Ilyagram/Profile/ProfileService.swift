@@ -8,7 +8,7 @@
 import Foundation
 
 protocol ProfileLoading: AnyObject {
-    func fetchProfile(completion: @escaping(Result<Profile, Error>)-> Void)
+    func fetchProfile(_ completion: @escaping(Result<Profile, Error>)-> Void)
 }
 
 struct ProfileResult: Codable {
@@ -31,7 +31,7 @@ final class ProfileService {
     private let urlSession: URLSession
     private let requestBuilder: UrlRequestBuilder
     private var currentTask: URLSessionTask?
-    private var profile: Profile?
+    private (set) var profile: Profile?
     
     init(urlSession: URLSession = .shared, requestBuilder: UrlRequestBuilder = .share) {
         self.urlSession = urlSession
@@ -53,7 +53,7 @@ extension Profile {
 }
 
 extension ProfileService: ProfileLoading {
-    func fetchProfile(completion: @escaping (Result<Profile, any Error>) -> Void) {
+    func fetchProfile(_ completion: @escaping (Result<Profile, any Error>) -> Void) {
         assert(Thread.isMainThread)
         
         if currentTask != nil { return }

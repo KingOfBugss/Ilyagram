@@ -7,6 +7,10 @@
 
 import UIKit
 
+protocol ProfileViewControllerProtocol: AnyObject {
+  func loadProfile(_ profile: Profile?)
+}
+
 class ProfileViewController: UIViewController {
     
     private let backButtonImage = UIImage(named: "LogoutButton")
@@ -28,21 +32,6 @@ class ProfileViewController: UIViewController {
         makeDescriptionLabel()
         makeLogoutButton()
         
-        fetchProfile()
-    }
-    
-    func fetchProfile() {
-        profileService.fetchProfile { [weak self] profileResult in
-            guard let self else { return }
-            switch profileResult {
-            case .success(let profile):
-                self.nameLabel.text = profile.username
-                self.loginNameLabel.text = profile.loginName
-                self.descriptionLabel.text = profile.bio
-            case .failure(let error):
-                break
-            }
-        }
     }
 }
 
@@ -123,4 +112,16 @@ extension ProfileViewController {
             logoutButton.centerYAnchor.constraint(equalTo: imageAvatarView.centerYAnchor)])
     }
     
+    func loadProfile(_ profile: Profile?) {
+        
+        if let profile {
+            self.nameLabel.text = profile.username
+            self.loginNameLabel.text = profile.loginName
+            self.descriptionLabel.text = profile.bio
+        } else {
+            self.nameLabel.text = ""
+            self.loginNameLabel.text = ""
+            self.descriptionLabel.text = ""
+          }
+    }
 }

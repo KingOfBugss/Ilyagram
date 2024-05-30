@@ -9,6 +9,8 @@ import UIKit
 import ProgressHUD
 
 class SplashViewController: UIViewController {
+    
+    private let profileService = ProfileService.shared
     private let oauthService = OAuth2Service()
     private var tokenInStorage: AuthTokenStorageProtocol = AccessKeyStorage()
  
@@ -35,7 +37,10 @@ class SplashViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        if let token = tokenInStorage.token {
+        if  let token = tokenInStorage.token,
+            token != "" {
+            UIBlockingProgressHUD.show()
+            fetchProfile(token: token)
             switchToTabBarController()
         } else {
             switchToAuthViewController()
@@ -61,15 +66,15 @@ class SplashViewController: UIViewController {
 }
 
 extension SplashViewController: AuthViewControllerDelegate {
-    func authViewController(_ vc: AuthViewController, didAuthenticateWithCode code: String) {
+    func authViewController(_ vc: AuthViewController,didAuthenticateWithCode code: String) {
         dismiss(animated: true) { [weak self] in
+            UIBlockingProgressHUD.show()
             guard let self = self else { return }
             self.fetchOAuthToken(code)
         }
     }
 
     private func fetchOAuthToken(_ code: String) {
-        UIBlockingProgressHUD.show()
         oauthService.fetchOAuthToken(code: code) { [weak self] result in
             guard let self = self else { return }
             UIBlockingProgressHUD.dissmiss()
@@ -82,6 +87,19 @@ extension SplashViewController: AuthViewControllerDelegate {
                 break
             }
         }
+    }
+    
+    private func fetchProfile(token: String) {
+        UIBlockingProgressHUD.show()
+        profileService.fetchProfile { [weak self] profileResult in
+                switch profileResult {
+                case .success:
+                    self?.switchToTabBarController()
+                case .failure:
+                    UIBlockingProgressHUD.dissmiss()
+                    self?.switchToAuthViewController()
+                }
+            }
     }
 }
 
