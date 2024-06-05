@@ -19,6 +19,8 @@ enum WebViewConstants {
 
 final class WebViewViewController: UIViewController {
     
+    private var estimateProgressObservation: NSKeyValueObservation?
+    
     private lazy var backwardButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -66,8 +68,6 @@ final class WebViewViewController: UIViewController {
             progresView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             progresView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 0),
             progresView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: 0)])
-        
-        updateProgress()
     }
     
     @objc private func didTapeBackwardButton() {
@@ -76,30 +76,39 @@ final class WebViewViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
-        uiWkWeb.addObserver(self, forKeyPath: #keyPath(WKWebView.estimatedProgress), options: .new, context: nil)
-        updateProgress()
+        addWebViewLoadingObserver()
+    }
+//    
+//    override func viewWillDisappear(_ animated: Bool) {
+//        super.viewWillDisappear(animated)
+//    }
+    
+    private func setProgressValue(_ newValue: Float) {
+        progresView.progress = newValue
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        uiWkWeb.removeObserver(self, forKeyPath: #keyPath(WKWebView.estimatedProgress), context: nil)
+    private func setProgressHidden(_ isHidden: Bool) {
+        progresView.isHidden = isHidden
     }
     
-    override func observeValue(forKeyPath keyPath: String?,
-                               of object: Any?,
-                               change: [NSKeyValueChangeKey : Any]?,
-                               context: UnsafeMutableRawPointer?) {
-        if keyPath == #keyPath(WKWebView.estimatedProgress) {
-            updateProgress()
-        } else {
-            super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
-        }
+    private func shouldHideProgress(for value: Float) -> Bool {
+        (1 - value) <= 0.0001
     }
     
-    private func updateProgress() {
-        progresView.progress = Float(uiWkWeb.estimatedProgress)
-        progresView.isHidden = fabs(uiWkWeb.estimatedProgress - 1.0) <= 0.0001
+    private func didUpdateProgressValue(_ newValue: Double) {
+        let newProgressValue = Float(newValue)
+        setProgressValue(newProgressValue)
+        let shouldHideProgress = shouldHideProgress(for: newProgressValue)
+        setProgressHidden(shouldHideProgress)
+    }
+    
+    private func addWebViewLoadingObserver() {
+        estimateProgressObservation = uiWkWeb.observe(\.estimatedProgress,
+                                                       options: [],
+                                                       changeHandler: { [weak self] _, _ in
+            guard let self = self else { return }
+            didUpdateProgressValue(uiWkWeb.estimatedProgress)
+        })
     }
 }
 

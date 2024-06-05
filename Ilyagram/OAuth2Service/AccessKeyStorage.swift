@@ -14,6 +14,8 @@ protocol AuthTokenStorageProtocol {
 
 class AccessKeyStorage: AuthTokenStorageProtocol {
     
+    static let shared = AccessKeyStorage()
+    
     private enum Token: String {
         case accessToken
     }

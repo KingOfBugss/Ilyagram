@@ -20,11 +20,21 @@ class ProfileViewController: UIViewController {
     private var nameLabel = UILabel()
     private var loginNameLabel = UILabel()
     private var descriptionLabel = UILabel()
+    private var profileImageServiceObserver: NSObjectProtocol?
     
     let profileService = ProfileService()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        profileImageServiceObserver = NotificationCenter.default.addObserver(forName: ProfileImageService.didChangeNotification,
+                                                                             object: nil,
+                                                                             queue: .main) { [weak self] _ in
+            guard let self = self else { return }
+            self.updateAvatar()
+        }
+        
+        updateAvatar()
         
         makeProfilePhotoImage()
         makeNameLabel()
@@ -32,6 +42,12 @@ class ProfileViewController: UIViewController {
         makeDescriptionLabel()
         makeLogoutButton()
         
+    }
+    private func updateAvatar() {
+        guard let profileImageURL = ProfileImageService.shared.avatarURL
+//            let url = URL(string: profileImageURL.absoluteString)  //!!!!!!!!
+        else { return }
+        // TODO [Sprint 11] Обновитt аватар, используя Kingfisher
     }
 }
 

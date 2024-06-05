@@ -11,6 +11,7 @@ import ProgressHUD
 class SplashViewController: UIViewController {
     
     private let profileService = ProfileService.shared
+    private let profileImageService = ProfileImageService.shared
     private let oauthService = OAuth2Service()
     private var tokenInStorage: AuthTokenStorageProtocol = AccessKeyStorage()
  
@@ -92,14 +93,29 @@ extension SplashViewController: AuthViewControllerDelegate {
     private func fetchProfile(token: String) {
         UIBlockingProgressHUD.show()
         profileService.fetchProfile { [weak self] profileResult in
-                switch profileResult {
-                case .success:
-                    self?.switchToTabBarController()
-                case .failure:
-                    UIBlockingProgressHUD.dissmiss()
-                    self?.switchToAuthViewController()
-                }
+            switch profileResult {
+            case .success(let profile):
+                let username = profile.username
+                self?.fetchProfileImage(profileUsername: username)
+                self?.switchToTabBarController()
+            case .failure:
+                UIBlockingProgressHUD.dissmiss()
+                self?.switchToAuthViewController()
             }
+        }
+    }
+    
+    private func fetchProfileImage(profileUsername: String) {
+        profileImageService.fetchProfileImageURL(username: profileUsername) { [weak self] profileImageUrl in
+            guard let self else { return }
+            switch profileImageUrl {
+            case .success:
+                switchToTabBarController()
+            case .failure:
+                print("case .failure in fetchProfileImage")
+                break
+            }
+        }
     }
 }
 

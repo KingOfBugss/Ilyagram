@@ -28,6 +28,7 @@
 		26C0F0F52BFC9D7D00FA82DD /* UIBlockingProgressHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26C0F0F42BFC9D7D00FA82DD /* UIBlockingProgressHUD.swift */; };
 		26C0F0F72BFCD55A00FA82DD /* ProfileService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26C0F0F62BFCD55A00FA82DD /* ProfileService.swift */; };
 		26C0F0F92BFD373F00FA82DD /* UrlRequestBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26C0F0F82BFD373F00FA82DD /* UrlRequestBuilder.swift */; };
+		26C0F0FB2C08B47900FA82DD /* ProfileImageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26C0F0FA2C08B47900FA82DD /* ProfileImageService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -53,6 +54,7 @@
 		26C0F0F42BFC9D7D00FA82DD /* UIBlockingProgressHUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIBlockingProgressHUD.swift; sourceTree = "<group>"; };
 		26C0F0F62BFCD55A00FA82DD /* ProfileService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileService.swift; sourceTree = "<group>"; };
 		26C0F0F82BFD373F00FA82DD /* UrlRequestBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UrlRequestBuilder.swift; sourceTree = "<group>"; };
+		26C0F0FA2C08B47900FA82DD /* ProfileImageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -118,6 +120,7 @@
 			children = (
 				26C0F0F62BFCD55A00FA82DD /* ProfileService.swift */,
 				267F70792B84FF10006CA194 /* ProfileViewController.swift */,
+				26C0F0FA2C08B47900FA82DD /* ProfileImageService.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -251,6 +254,7 @@
 				267F708D2BA8E3E8006CA194 /* URLSession+data.swift in Sources */,
 				267F70892BA32A19006CA194 /* WebViewViewController.swift in Sources */,
 				267F708B2BA89BDD006CA194 /* OAuth2Service.swift in Sources */,
+				26C0F0FB2C08B47900FA82DD /* ProfileImageService.swift in Sources */,
 				267F70452B7BC767006CA194 /* SceneDelegate.swift in Sources */,
 				26C0F0F92BFD373F00FA82DD /* UrlRequestBuilder.swift in Sources */,
 			);

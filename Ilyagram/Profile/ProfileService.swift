@@ -8,7 +8,17 @@
 import Foundation
 
 protocol ProfileLoading: AnyObject {
+    var profile: Profile? { get }
     func fetchProfile(_ completion: @escaping(Result<Profile, Error>)-> Void)
+}
+
+struct UserResult: Decodable {
+    let profileImage: ProfileImage
+}
+
+struct ProfileImage: Decodable {
+    let small: String
+    let medium: String
 }
 
 struct ProfileResult: Codable {
