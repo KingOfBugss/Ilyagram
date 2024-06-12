@@ -10,7 +10,7 @@ import Foundation
 class UrlRequestBuilder {
     
     static let share = UrlRequestBuilder()
-    let tokenStorage = AccessKeyStorage()
+    let tokenStorage = AccessKeyStorage.shared
     
     func makeHttpRequest(path: String, httpMethod: String? = nil, baseURLString: String? = nil) -> URLRequest? {
         guard

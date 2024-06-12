@@ -105,7 +105,9 @@ class OAuth2Service {
             
             switch result {
             case let .success(decodedObject):
-                completion(.success(decodedObject.accessToken))
+                let authToken = decodedObject.accessToken
+                self.storage.token = authToken
+                completion(.success(authToken))
             case let .failure(error):
                 print(error.localizedDescription)
                 completion(.failure(error))

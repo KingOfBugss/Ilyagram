@@ -13,7 +13,8 @@ class SplashViewController: UIViewController {
     private let profileService = ProfileService.shared
     private let profileImageService = ProfileImageService.shared
     private let oauthService = OAuth2Service()
-    private var tokenInStorage: AuthTokenStorageProtocol = AccessKeyStorage()
+    private var tokenInStorage: AuthTokenStorageProtocol = AccessKeyStorage.shared
+    private var alertPresenter: AlertPresenterProtocol?
  
     let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
     
@@ -33,19 +34,14 @@ class SplashViewController: UIViewController {
             logoImageView.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
             logoImageView.centerYAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor)
         ])
+//        checkStatusOfAuth()
+//        resetToken()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        if  let token = tokenInStorage.token,
-            token != "" {
-            UIBlockingProgressHUD.show()
-            fetchProfile(token: token)
-            switchToTabBarController()
-        } else {
-            switchToAuthViewController()
-        }
+        checkStatusOfAuth()
     }
     
     private func switchToAuthViewController() {
@@ -81,9 +77,10 @@ extension SplashViewController: AuthViewControllerDelegate {
             UIBlockingProgressHUD.dissmiss()
             switch result {
             case .success:
-                tokenInStorage.storeAccessKey(newValue: code)
+               checkStatusOfAuth()
                 self.switchToTabBarController()
-            case .failure:
+            case .failure(let error):
+                self.showLoginAlert(error: error)
                 print("case .failure in fetchOAuthToken")
                 break
             }
@@ -97,10 +94,9 @@ extension SplashViewController: AuthViewControllerDelegate {
             case .success(let profile):
                 let username = profile.username
                 self?.fetchProfileImage(profileUsername: username)
-                self?.switchToTabBarController()
-            case .failure:
+            case .failure(let error):
+                self?.showLoginAlert(error: error)
                 UIBlockingProgressHUD.dissmiss()
-                self?.switchToAuthViewController()
             }
         }
     }
@@ -111,11 +107,48 @@ extension SplashViewController: AuthViewControllerDelegate {
             switch profileImageUrl {
             case .success:
                 switchToTabBarController()
-            case .failure:
+            case .failure(let error):
+                self.showLoginAlert(error: error)
                 print("case .failure in fetchProfileImage")
                 break
             }
         }
+    }
+    
+    func resetToken() {
+        UIBlockingProgressHUD.dissmiss()
+        guard AccessKeyStorage.shared.removeToken() else {
+            assertionFailure("Cant remove token")
+            return
+        }
+    }
+    
+    func checkStatusOfAuth() {
+        UIBlockingProgressHUD.show()
+        if  let token = tokenInStorage.token,
+            token != "" {
+            fetchProfile(token: token)
+            switchToTabBarController()
+            UIBlockingProgressHUD.dissmiss()
+            
+        } else {
+            switchToAuthViewController()
+            UIBlockingProgressHUD.dissmiss()
+        }
+    }
+    
+    func showLoginAlert(error: Error) {
+      DispatchQueue.main.async { [weak self] in
+        guard let self else { return }
+        let alertModel = AlertModel(
+          title: "Что-то пошло не так :(",
+          message: "Не удалось войти в систему: \(error.localizedDescription)",
+          buttonText: "Ok") {
+              
+              self.checkStatusOfAuth()
+        }
+        self.alertPresenter?.showAlert(for: alertModel)
+      }
     }
 }
 

@@ -6,29 +6,35 @@
 //
 
 import Foundation
+import SwiftKeychainWrapper
 
 protocol AuthTokenStorageProtocol {
     var token: String? { get }
-    func storeAccessKey(newValue: String)
 }
 
 class AccessKeyStorage: AuthTokenStorageProtocol {
     
     static let shared = AccessKeyStorage()
+    private let keyChainWrapper = KeychainWrapper.standard
     
-    private enum Token: String {
-        case accessToken
+    private enum Token {
+        static let accessToken = "AccessToken"
     }
     
     private let userDefault = UserDefaults.standard
     
     var token: String? {
         get {
-            return userDefault.string(forKey: Token.accessToken.rawValue)
+            keyChainWrapper.string(forKey: Token.accessToken)
+        }
+        
+        set {
+            guard let newValue else { return }
+            keyChainWrapper.set(newValue, forKey: Token.accessToken)
         }
     }
     
-    func storeAccessKey(newValue: String) {
-        userDefault.setValue(newValue, forKey: Token.accessToken.rawValue)
+    func removeToken() -> Bool {
+        keyChainWrapper.removeObject(forKey: Token.accessToken)
     }
 }

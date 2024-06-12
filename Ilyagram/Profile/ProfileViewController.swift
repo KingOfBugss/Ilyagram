@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 protocol ProfileViewControllerProtocol: AnyObject {
   func loadProfile(_ profile: Profile?)
@@ -22,6 +23,8 @@ class ProfileViewController: UIViewController {
     private var descriptionLabel = UILabel()
     private var profileImageServiceObserver: NSObjectProtocol?
     
+    private let placeholder = UIImage(named: "PlaceHolderForAvatar")
+    
     let profileService = ProfileService()
     
     override func viewDidLoad() {
@@ -31,11 +34,10 @@ class ProfileViewController: UIViewController {
                                                                              object: nil,
                                                                              queue: .main) { [weak self] _ in
             guard let self = self else { return }
-            self.updateAvatar()
+            self.checkAvatar()
         }
         
-        updateAvatar()
-        
+//        checkAvatar()
         makeProfilePhotoImage()
         makeNameLabel()
         makeLoginNameLabel()
@@ -43,11 +45,16 @@ class ProfileViewController: UIViewController {
         makeLogoutButton()
         
     }
-    private func updateAvatar() {
-        guard let profileImageURL = ProfileImageService.shared.avatarURL
-//            let url = URL(string: profileImageURL.absoluteString)  //!!!!!!!!
-        else { return }
-        // TODO [Sprint 11] Обновитt аватар, используя Kingfisher
+    private func updateAvatar(url: URL) {
+        //Kingfisher
+        imageAvatarView.kf.indicatorType = .activity
+        imageAvatarView.kf.setImage(with: url, placeholder: placeholder)
+    }
+    
+    func checkAvatar() {
+        if let url = ProfileImageService.shared.avatarURL {
+            updateAvatar(url: url)
+        }
     }
 }
 
@@ -138,6 +145,7 @@ extension ProfileViewController {
             self.nameLabel.text = ""
             self.loginNameLabel.text = ""
             self.descriptionLabel.text = ""
+            self.imageAvatarView.image = placeholder
           }
     }
 }
