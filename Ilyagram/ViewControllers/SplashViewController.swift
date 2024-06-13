@@ -34,8 +34,8 @@ class SplashViewController: UIViewController {
             logoImageView.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
             logoImageView.centerYAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor)
         ])
-//        checkStatusOfAuth()
-        resetToken()
+        
+//        resetToken()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -86,37 +86,7 @@ extension SplashViewController: AuthViewControllerDelegate {
             }
         }
     }
-    
-    private func fetchProfile(token: String) {
-        UIBlockingProgressHUD.show()
-        profileService.fetchProfile { [weak self] profileResult in
-            switch profileResult {
-            case .success(let profile):
-                let username = profile.username
-                self?.fetchProfileImage(profileUsername: username)
-            case .failure(let error):
-                self?.showLoginAlert(error: error)
-                self?.switchToTabBarController()
-                UIBlockingProgressHUD.dissmiss()
-            }
-        }
-    }
-    
-    private func fetchProfileImage(profileUsername: String) {
-        profileImageService.fetchProfileImageURL(username: profileUsername) { [weak self] profileImageUrl in
-            guard let self else { return }
-            switch profileImageUrl {
-            case .success:
-                switchToTabBarController()
-                UIBlockingProgressHUD.dissmiss()
-            case .failure(let error):
-                self.showLoginAlert(error: error)
-                print("case .failure in fetchProfileImage")
-                break
-            }
-        }
-    }
-    
+      
     func resetToken() {
         UIBlockingProgressHUD.dissmiss()
         guard AccessKeyStorage.shared.removeToken() else {
@@ -126,10 +96,8 @@ extension SplashViewController: AuthViewControllerDelegate {
     }
     
     func checkStatusOfAuth() {
-//        UIBlockingProgressHUD.show()
         if  let token = tokenInStorage.token,
             token != "" {
-//            fetchProfile(token: token)
             switchToTabBarController()
         } else {
             switchToAuthViewController()

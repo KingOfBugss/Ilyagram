@@ -74,7 +74,9 @@ extension ProfileService: ProfileLoading {
         }
         
         let session = URLSession.shared
-        let task = session.load(for: request, decodableType: ProfileResult.self) { [weak self] result in
+        let task = session.load(for: request, decodableType: ProfileResult.self) {
+            [weak self] (result: Result<ProfileResult, Error>) in
+            
             guard let self else { return }
             
             self.currentTask = nil

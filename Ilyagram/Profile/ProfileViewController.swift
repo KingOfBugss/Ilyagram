@@ -26,7 +26,7 @@ class ProfileViewController: UIViewController {
     private let profileService = ProfileService.shared
     private let profileImageService = ProfileImageService.shared
     
-    private let placeholder = UIImage(named: "PlaceHolderForAvatar")
+    private let placeholder = UIImage(named: "PaceHolderForAvatar")
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,7 +40,6 @@ class ProfileViewController: UIViewController {
         makeLoginNameLabel()
         makeDescriptionLabel()
         makeLogoutButton()
-        
     }
     
     private func subscribe() {
@@ -58,6 +57,11 @@ class ProfileViewController: UIViewController {
         imageAvatarView.kf.setImage(with: url, placeholder: placeholder)
     }
     
+    func updateProfile() {
+        guard let updateProfile = profileService.profile else { return }
+        loadProfile(updateProfile)
+    }
+    
     func checkAvatar() {
         if let url = ProfileImageService.shared.avatarURL {
             updateAvatar(url: url)
@@ -71,9 +75,9 @@ class ProfileViewController: UIViewController {
             case .success(let profile):
                 let username = profile.username
                 self?.fetchProfileImage(profileUsername: username)
+                self?.updateProfile()
             case .failure(let error):
 //                self?.showLoginAlert(error: error)
-//                self?.switchToTabBarController()
                 UIBlockingProgressHUD.dissmiss()
             }
         }
