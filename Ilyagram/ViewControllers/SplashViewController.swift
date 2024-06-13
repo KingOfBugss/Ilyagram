@@ -35,7 +35,7 @@ class SplashViewController: UIViewController {
             logoImageView.centerYAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor)
         ])
 //        checkStatusOfAuth()
-//        resetToken()
+        resetToken()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -96,6 +96,7 @@ extension SplashViewController: AuthViewControllerDelegate {
                 self?.fetchProfileImage(profileUsername: username)
             case .failure(let error):
                 self?.showLoginAlert(error: error)
+                self?.switchToTabBarController()
                 UIBlockingProgressHUD.dissmiss()
             }
         }
@@ -107,6 +108,7 @@ extension SplashViewController: AuthViewControllerDelegate {
             switch profileImageUrl {
             case .success:
                 switchToTabBarController()
+                UIBlockingProgressHUD.dissmiss()
             case .failure(let error):
                 self.showLoginAlert(error: error)
                 print("case .failure in fetchProfileImage")
@@ -124,13 +126,11 @@ extension SplashViewController: AuthViewControllerDelegate {
     }
     
     func checkStatusOfAuth() {
-        UIBlockingProgressHUD.show()
+//        UIBlockingProgressHUD.show()
         if  let token = tokenInStorage.token,
             token != "" {
-            fetchProfile(token: token)
+//            fetchProfile(token: token)
             switchToTabBarController()
-            UIBlockingProgressHUD.dissmiss()
-            
         } else {
             switchToAuthViewController()
             UIBlockingProgressHUD.dissmiss()

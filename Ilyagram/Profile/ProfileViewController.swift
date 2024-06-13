@@ -22,22 +22,19 @@ class ProfileViewController: UIViewController {
     private var loginNameLabel = UILabel()
     private var descriptionLabel = UILabel()
     private var profileImageServiceObserver: NSObjectProtocol?
+    private var tokenInStorage: AuthTokenStorageProtocol = AccessKeyStorage.shared
+    private let profileService = ProfileService.shared
+    private let profileImageService = ProfileImageService.shared
     
     private let placeholder = UIImage(named: "PlaceHolderForAvatar")
-    
-    let profileService = ProfileService()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        profileImageServiceObserver = NotificationCenter.default.addObserver(forName: ProfileImageService.didChangeNotification,
-                                                                             object: nil,
-                                                                             queue: .main) { [weak self] _ in
-            guard let self = self else { return }
-            self.checkAvatar()
-        }
+        subscribe()
+        fetchProfile(token: tokenInStorage.token ?? "")
         
-//        checkAvatar()
+        //        checkAvatar()
         makeProfilePhotoImage()
         makeNameLabel()
         makeLoginNameLabel()
@@ -45,6 +42,16 @@ class ProfileViewController: UIViewController {
         makeLogoutButton()
         
     }
+    
+    private func subscribe() {
+        NotificationCenter.default.addObserver(forName: ProfileImageService.didChangeNotification,
+                                               object: self,
+                                               queue: .main) { [weak self] _ in
+            guard let self = self else { return }
+            self.checkAvatar()
+        }
+    }
+    
     private func updateAvatar(url: URL) {
         //Kingfisher
         imageAvatarView.kf.indicatorType = .activity
@@ -54,6 +61,36 @@ class ProfileViewController: UIViewController {
     func checkAvatar() {
         if let url = ProfileImageService.shared.avatarURL {
             updateAvatar(url: url)
+        }
+    }
+    
+    private func fetchProfile(token: String) {
+        UIBlockingProgressHUD.show()
+        profileService.fetchProfile { [weak self] profileResult in
+            switch profileResult {
+            case .success(let profile):
+                let username = profile.username
+                self?.fetchProfileImage(profileUsername: username)
+            case .failure(let error):
+//                self?.showLoginAlert(error: error)
+//                self?.switchToTabBarController()
+                UIBlockingProgressHUD.dissmiss()
+            }
+        }
+    }
+    
+    private func fetchProfileImage(profileUsername: String) {
+        profileImageService.fetchProfileImageURL(username: profileUsername) { [weak self] profileImageUrl in
+            guard let self else { return }
+            switch profileImageUrl {
+            case .success:
+                checkAvatar()
+                UIBlockingProgressHUD.dissmiss()
+            case .failure(let error):
+//                self.showLoginAlert(error: error)
+                print("case .failure in fetchProfileImage")
+                break
+            }
         }
     }
 }

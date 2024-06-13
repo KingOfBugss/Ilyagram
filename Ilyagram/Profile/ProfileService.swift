@@ -64,8 +64,6 @@ extension Profile {
 
 extension ProfileService: ProfileLoading {
     func fetchProfile(_ completion: @escaping (Result<Profile, any Error>) -> Void) {
-        assert(Thread.isMainThread)
-        
         if currentTask != nil { return }
         currentTask?.cancel()
         
