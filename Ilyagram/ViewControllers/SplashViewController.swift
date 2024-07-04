@@ -35,7 +35,7 @@ class SplashViewController: UIViewController {
             logoImageView.centerYAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor)
         ])
         
-//        resetToken()
+        resetToken()
     }
     
     override func viewDidAppear(_ animated: Bool) {

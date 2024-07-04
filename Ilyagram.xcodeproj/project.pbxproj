@@ -33,6 +33,7 @@
 		26C0F0FF2C12610600FA82DD /* AlertPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26C0F0FE2C12610600FA82DD /* AlertPresenter.swift */; };
 		26C0F1022C176D9100FA82DD /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 26C0F1012C176D9100FA82DD /* Kingfisher */; };
 		26C0F1072C18ED8E00FA82DD /* SwiftKeychainWrapper in Frameworks */ = {isa = PBXBuildFile; productRef = 26C0F1062C18ED8E00FA82DD /* SwiftKeychainWrapper */; };
+		26C0F10D2C1BAC4800FA82DD /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26C0F10C2C1BAC4800FA82DD /* TabBarController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -61,6 +62,7 @@
 		26C0F0FA2C08B47900FA82DD /* ProfileImageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageService.swift; sourceTree = "<group>"; };
 		26C0F0FC2C111BC800FA82DD /* AlertModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertModel.swift; sourceTree = "<group>"; };
 		26C0F0FE2C12610600FA82DD /* AlertPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertPresenter.swift; sourceTree = "<group>"; };
+		26C0F10C2C1BAC4800FA82DD /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,6 +113,7 @@
 				267F704B2B7BC769006CA194 /* Assets.xcassets */,
 				267F704D2B7BC769006CA194 /* LaunchScreen.storyboard */,
 				267F70502B7BC769006CA194 /* Info.plist */,
+				26C0F10C2C1BAC4800FA82DD /* TabBarController.swift */,
 			);
 			path = Ilyagram;
 			sourceTree = "<group>";
@@ -287,6 +290,7 @@
 				26C0F0FF2C12610600FA82DD /* AlertPresenter.swift in Sources */,
 				267F708B2BA89BDD006CA194 /* OAuth2Service.swift in Sources */,
 				26C0F0FB2C08B47900FA82DD /* ProfileImageService.swift in Sources */,
+				26C0F10D2C1BAC4800FA82DD /* TabBarController.swift in Sources */,
 				267F70452B7BC767006CA194 /* SceneDelegate.swift in Sources */,
 				26C0F0F92BFD373F00FA82DD /* UrlRequestBuilder.swift in Sources */,
 			);
