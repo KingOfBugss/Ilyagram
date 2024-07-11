@@ -17,9 +17,10 @@ class TabBarController: UITabBarController {
             withIdentifier: "ImagesListViewController"
         )
         
-        let profileViewController = storyboard.instantiateViewController(
-            withIdentifier: "ProfileViewController"
-        )
+        let profileViewController = ProfileViewController()
+        profileViewController.tabBarItem = UITabBarItem(title: "",
+                                                        image: UIImage(named: "tap_profile_active"),
+                                                        selectedImage: nil)
         
         self.viewControllers = [imagesListViewController, profileViewController]
     }

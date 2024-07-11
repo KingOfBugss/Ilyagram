@@ -10,6 +10,14 @@ import ProgressHUD
 
 class SplashViewController: UIViewController {
     
+    private var splashScrennLogo: UIImageView = {
+        let imageSplashScreenLogo = UIImageView()
+        imageSplashScreenLogo.image = UIImage(named: "Splash_screen_logo")
+        imageSplashScreenLogo.translatesAutoresizingMaskIntoConstraints = false
+        
+        return imageSplashScreenLogo
+    }()
+    
     private let profileService = ProfileService.shared
     private let profileImageService = ProfileImageService.shared
     private let oauthService = OAuth2Service()
@@ -21,19 +29,7 @@ class SplashViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let logoImageView: UIImageView = {
-            let imageView = UIImageView()
-            imageView.translatesAutoresizingMaskIntoConstraints = false
-            let image = UIImage(named: "Splash_screen_logo")
-            imageView.image = image
-            return imageView
-        }()
-        view.backgroundColor = UIColor(named: "YP Background")
-        view.addSubview(logoImageView)
-        NSLayoutConstraint.activate([
-            logoImageView.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
-            logoImageView.centerYAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor)
-        ])
+        setupSplashViewController()
         
         resetToken()
     }
@@ -45,12 +41,14 @@ class SplashViewController: UIViewController {
     }
     
     private func switchToAuthViewController() {
-        guard let navigationController = mainStoryboard.instantiateViewController(
-            withIdentifier: "NavigationController") as? UINavigationController,
-              let authViewController = navigationController.viewControllers[0] as? AuthViewController else {
-            preconditionFailure("Не удается получить NavigationController or AuthViewController из Storyboard")
-        }
-        authViewController.delegate = self
+        let storyboard = UIStoryboard(name: "Main", bundle: .main)
+        let viewController = storyboard.instantiateViewController(withIdentifier: "AuthViewController")
+        guard let viewController = viewController as? AuthViewController else { return }
+        viewController.delegate = self
+        let navigationController = UINavigationController(rootViewController: viewController)
+        navigationController.modalPresentationStyle = .fullScreen
+        present(navigationController, animated: false)
+        
         UIBlockingProgressHUD.window.rootViewController = navigationController
         UIBlockingProgressHUD.window.makeKeyAndVisible()
     }
@@ -71,6 +69,16 @@ extension SplashViewController: AuthViewControllerDelegate {
         }
     }
 
+    private func setupSplashViewController() {
+        view.backgroundColor = UIColor(named: "YP Background")
+        view.addSubview(splashScrennLogo)
+        
+        NSLayoutConstraint.activate([
+            splashScrennLogo.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0),
+            splashScrennLogo.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 0)
+        ])
+    }
+    
     private func fetchOAuthToken(_ code: String) {
         oauthService.fetchOAuthToken(code: code) { [weak self] result in
             guard let self = self else { return }
