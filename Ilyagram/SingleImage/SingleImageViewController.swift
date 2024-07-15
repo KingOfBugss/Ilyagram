@@ -37,6 +37,15 @@ class SingleImageViewController: UIViewController {
         scrollView.minimumZoomScale = 0.1
         scrollView.maximumZoomScale = 1.25
         singleImageView.image = image
+        
+        setScrollViewConstrain()
+        setShareButtonConstrain()
+        setSingleImageViewConstrain()
+        setBackButtonConstrain()
+//        rescaleAndCenterImageInScrollView(image: image)
+    }
+    
+    private func setScrollViewConstrain() {
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
@@ -45,7 +54,20 @@ class SingleImageViewController: UIViewController {
             scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
+    }
+    
+    private func setShareButtonConstrain() {
+        shareButton.translatesAutoresizingMaskIntoConstraints = false
         
+        NSLayoutConstraint.activate([
+            shareButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 30),
+            shareButton.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
+            shareButton.widthAnchor.constraint(equalToConstant: 50),
+            shareButton.heightAnchor.constraint(equalToConstant: 50)
+        ])
+    }
+
+    private func setSingleImageViewConstrain() {
         singleImageView.translatesAutoresizingMaskIntoConstraints = false
         view.bringSubviewToFront(backButton)
         
@@ -55,7 +77,9 @@ class SingleImageViewController: UIViewController {
             singleImageView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
             singleImageView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor)
         ])
-        
+    }
+    
+    private func setBackButtonConstrain() {
         backButton.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
@@ -64,17 +88,6 @@ class SingleImageViewController: UIViewController {
             backButton.widthAnchor.constraint(equalToConstant: 48),
             backButton.heightAnchor.constraint(equalToConstant: 48)
         ])
-        
-        shareButton.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-            shareButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 30),
-            shareButton.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
-            shareButton.widthAnchor.constraint(equalToConstant: 50),
-            shareButton.heightAnchor.constraint(equalToConstant: 50)
-        ])
-        
-        rescaleAndCenterImageInScrollView(image: image)
     }
     
     private func rescaleAndCenterImageInScrollView(image: UIImage) {

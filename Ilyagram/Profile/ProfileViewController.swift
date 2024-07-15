@@ -13,28 +13,27 @@ protocol ProfileViewControllerProtocol: AnyObject {
 }
 
 class ProfileViewController: UIViewController {
-    
+
     private let backButtonImage = UIImage(named: "LogoutButton")
-    private let backButtonImageView = UIImageView()
     private let avatarImage = UIImage(named: "ProfilePhoto")
-    private var imageAvatarView = UIImageView()
-    private var nameLabel = UILabel()
-    private var loginNameLabel = UILabel()
-    private var descriptionLabel = UILabel()
-    private var profileImageServiceObserver: NSObjectProtocol?
-    private var tokenInStorage: AuthTokenStorageProtocol = AccessKeyStorage.shared
+    private let placeholder = UIImage(named: "PaceHolderForAvatar")
     private let profileService = ProfileService.shared
     private let profileImageService = ProfileImageService.shared
     
-    private let placeholder = UIImage(named: "PaceHolderForAvatar")
+    private lazy var backButtonImageView = UIImageView()
+    private lazy var imageAvatarView = UIImageView()
+    private lazy var nameLabel = UILabel()
+    private lazy var loginNameLabel = UILabel()
+    private lazy var descriptionLabel = UILabel()
+
+    private var profileImageServiceObserver: NSObjectProtocol?
+    private var tokenInStorage: AuthTokenStorageProtocol = AccessKeyStorage.shared
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         subscribe()
         fetchProfile(token: tokenInStorage.token ?? "")
-        
-        //        checkAvatar()
         makeProfilePhotoImage()
         makeNameLabel()
         makeLoginNameLabel()
@@ -52,7 +51,8 @@ class ProfileViewController: UIViewController {
     }
     
     private func updateAvatar(url: URL) {
-        //Kingfisher
+    
+        //MARK: Kingfisher
         imageAvatarView.kf.indicatorType = .activity
         imageAvatarView.kf.setImage(with: url, placeholder: placeholder)
     }

@@ -31,7 +31,8 @@ class SplashViewController: UIViewController {
 
         setupSplashViewController()
         
-        resetToken()
+//  MARK: Функция для сброса токена в KingFisher
+//        resetToken()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -54,7 +55,12 @@ class SplashViewController: UIViewController {
     }
     
     private func switchToTabBarController() {
-        guard let window = UIApplication.shared.windows.first else { fatalError("Invalid Configuration") }
+        guard let window = UIApplication.shared.windows.first else {
+            print("Invalid Configuration")
+            return
+            // fatalError("Invalid Configuration")
+        }
+            
         let tabBarController = UIStoryboard(name: "Main", bundle: .main).instantiateViewController(withIdentifier: "TabBarViewController")
         window.rootViewController = tabBarController
         }
