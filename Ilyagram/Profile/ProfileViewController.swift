@@ -99,10 +99,30 @@ class ProfileViewController: UIViewController {
     }
 }
 
-extension ProfileViewController {
+extension ProfileViewController: AuthViewControllerDelegate {
+    func authViewController(_ vc: AuthViewController, didAuthenticateWithCode code: String) {
+//        dismiss(animated: true) { [weak self] in
+//            UIBlockingProgressHUD.show()
+//            guard let self = self else { return }
+//        }
+    }
     
     @objc private func didTapBackButton() {
         
+        let storyboard = UIStoryboard(name: "Main", bundle: .main)
+        let toAuthVc = storyboard.instantiateViewController(withIdentifier: "AuthViewController") as? AuthViewController
+        guard let toAuthVc = toAuthVc else { return }
+        toAuthVc.delegate = self
+        let navigationController = UINavigationController(rootViewController: toAuthVc)
+        navigationController.modalPresentationStyle = .fullScreen
+        self.navigationController?.pushViewController(navigationController, animated: true)
+//        UIBlockingProgressHUD.window.rootViewController.
+//        UIBlockingProgressHUD.
+//        
+        present(navigationController, animated: true)
+        
+        UIBlockingProgressHUD.dissmiss()
+        AccessKeyStorage.shared.removeToken()
     }
     
     func makeProfilePhotoImage() {

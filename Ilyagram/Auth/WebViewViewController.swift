@@ -78,10 +78,6 @@ final class WebViewViewController: UIViewController {
         super.viewDidAppear(animated)
         addWebViewLoadingObserver()
     }
-//    
-//    override func viewWillDisappear(_ animated: Bool) {
-//        super.viewWillDisappear(animated)
-//    }
     
     private func setProgressValue(_ newValue: Float) {
         progresView.progress = newValue
@@ -163,5 +159,3 @@ private extension WebViewViewController {
         uiWkWeb.load(request)
     }
 }
-
-//https://unsplash.com/oauth/authorize/native?code=QvRdJrpNfuFOP9Q0m_wF7R-prLkXRCv3GvfbLRujs8o
