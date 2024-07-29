@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		260421202C5414F50058F0D7 /* ImageListService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2604211F2C5414F50058F0D7 /* ImageListService.swift */; };
 		267F70432B7BC767006CA194 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 267F70422B7BC767006CA194 /* AppDelegate.swift */; };
 		267F70452B7BC767006CA194 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 267F70442B7BC767006CA194 /* SceneDelegate.swift */; };
 		267F70472B7BC767006CA194 /* ImagesListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 267F70462B7BC767006CA194 /* ImagesListViewController.swift */; };
@@ -37,6 +38,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2604211F2C5414F50058F0D7 /* ImageListService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageListService.swift; sourceTree = "<group>"; };
 		267F703F2B7BC767006CA194 /* Ilyagram.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Ilyagram.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		267F70422B7BC767006CA194 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		267F70442B7BC767006CA194 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -123,6 +125,7 @@
 			children = (
 				267F70762B81394E006CA194 /* ImageListCell.swift */,
 				267F70462B7BC767006CA194 /* ImagesListViewController.swift */,
+				2604211F2C5414F50058F0D7 /* ImageListService.swift */,
 			);
 			path = ImageList;
 			sourceTree = "<group>";
@@ -281,6 +284,7 @@
 				267F70862BA0F1E1006CA194 /* AuthViewController.swift in Sources */,
 				2695B7C72BF63211003587FC /* JSONDecoder.swift in Sources */,
 				267F70922BAB3057006CA194 /* SplashViewController.swift in Sources */,
+				260421202C5414F50058F0D7 /* ImageListService.swift in Sources */,
 				26C0F0F52BFC9D7D00FA82DD /* UIBlockingProgressHUD.swift in Sources */,
 				267F70842B9F7551006CA194 /* Constants.swift in Sources */,
 				26C0F0FD2C111BC800FA82DD /* AlertModel.swift in Sources */,
