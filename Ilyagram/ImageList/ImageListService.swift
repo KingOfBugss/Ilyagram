@@ -39,11 +39,12 @@ class ImageListService {
     
     static let didChangeNotification = Notification.Name(rawValue: "ImagesListServiceDidChange")
     
-    private let requestBuilder = UrlRequestBuilder.share
+    let requestBuilder = UrlRequestBuilder.share
+    
     private let session = URLSession.shared
     private let imageOnPage = 10
     
-    private var photos: [Photo] = []
+    var photos: [Photo] = []
     private var lastLoadedPage: Int?
     private var currentPhotoTask: URLSessionTask?
 }
@@ -71,13 +72,18 @@ extension ImageListService {
         )
     }
     
+    func mackeNextPageNumber() -> Int {
+        guard let lastLoadedPage else { return 1 }
+        let nextPage = lastLoadedPage + 1
+        return nextPage
+    }
+    
     func fetchPhotosNextPage() {
         assert(Thread.isMainThread)
         if currentPhotoTask != nil { return }
         currentPhotoTask?.cancel()
         
-        guard let lastLoadedPage else { return }
-        let nextPage = lastLoadedPage + 1
+        let nextPage = mackeNextPageNumber()
         
         guard let request = makePhotosListRequest(page: nextPage) else {
             print("ERROR: guard in ImageListService -> request")
@@ -103,10 +109,13 @@ extension ImageListService {
                         userInfo: ["Photos": self.photos]
                     )
                 case .failure(let error):
-                    print("ERROR in task ImageListService")
+                    print("ERROR: in task ImageListService \(error)")
                 }
             }
         }
+        
+        self.currentPhotoTask = task
+        task.resume()
     }
 }
 
