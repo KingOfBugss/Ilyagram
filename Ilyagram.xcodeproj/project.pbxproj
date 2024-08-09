@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		260421202C5414F50058F0D7 /* ImageListService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2604211F2C5414F50058F0D7 /* ImageListService.swift */; };
-		260421282C57D7F70058F0D7 /* ImagesListServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 260421272C57D7F70058F0D7 /* ImagesListServiceTests.swift */; };
 		267F70432B7BC767006CA194 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 267F70422B7BC767006CA194 /* AppDelegate.swift */; };
 		267F70452B7BC767006CA194 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 267F70442B7BC767006CA194 /* SceneDelegate.swift */; };
 		267F70472B7BC767006CA194 /* ImagesListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 267F70462B7BC767006CA194 /* ImagesListViewController.swift */; };
@@ -51,7 +50,6 @@
 /* Begin PBXFileReference section */
 		2604211F2C5414F50058F0D7 /* ImageListService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageListService.swift; sourceTree = "<group>"; };
 		260421252C57D7F70058F0D7 /* IlyagramTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = IlyagramTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		260421272C57D7F70058F0D7 /* ImagesListServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesListServiceTests.swift; sourceTree = "<group>"; };
 		267F703F2B7BC767006CA194 /* Ilyagram.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Ilyagram.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		267F70422B7BC767006CA194 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		267F70442B7BC767006CA194 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -101,19 +99,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		260421262C57D7F70058F0D7 /* IlyagramTests */ = {
+		260421302C62C1BA0058F0D7 /* Storyboards */ = {
 			isa = PBXGroup;
 			children = (
-				260421272C57D7F70058F0D7 /* ImagesListServiceTests.swift */,
+				267F70482B7BC767006CA194 /* Main.storyboard */,
+				267F704D2B7BC769006CA194 /* LaunchScreen.storyboard */,
 			);
-			path = IlyagramTests;
+			path = Storyboards;
 			sourceTree = "<group>";
 		};
 		267F70362B7BC767006CA194 = {
 			isa = PBXGroup;
 			children = (
 				267F70412B7BC767006CA194 /* Ilyagram */,
-				260421262C57D7F70058F0D7 /* IlyagramTests */,
 				267F70402B7BC767006CA194 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -130,6 +128,8 @@
 		267F70412B7BC767006CA194 /* Ilyagram */ = {
 			isa = PBXGroup;
 			children = (
+				26C0F10C2C1BAC4800FA82DD /* TabBarController.swift */,
+				260421302C62C1BA0058F0D7 /* Storyboards */,
 				26C0F1042C1794E600FA82DD /* Alert */,
 				26C0F1032C17949400FA82DD /* ViewControllers */,
 				26C0F0F32BFBE7E200FA82DD /* Service */,
@@ -137,15 +137,10 @@
 				267F70422B7BC767006CA194 /* AppDelegate.swift */,
 				267F70442B7BC767006CA194 /* SceneDelegate.swift */,
 				267F708E2BAA01FE006CA194 /* OAuth2Service */,
-				267F70872BA329F4006CA194 /* Auth */,
-				267F70822B9F74F7006CA194 /* SingleImage */,
 				267F707B2B8D0893006CA194 /* Profile */,
 				267F70782B8139A6006CA194 /* ImageList */,
-				267F70482B7BC767006CA194 /* Main.storyboard */,
 				267F704B2B7BC769006CA194 /* Assets.xcassets */,
-				267F704D2B7BC769006CA194 /* LaunchScreen.storyboard */,
 				267F70502B7BC769006CA194 /* Info.plist */,
-				26C0F10C2C1BAC4800FA82DD /* TabBarController.swift */,
 			);
 			path = Ilyagram;
 			sourceTree = "<group>";
@@ -154,7 +149,6 @@
 			isa = PBXGroup;
 			children = (
 				267F70762B81394E006CA194 /* ImageListCell.swift */,
-				267F70462B7BC767006CA194 /* ImagesListViewController.swift */,
 				2604211F2C5414F50058F0D7 /* ImageListService.swift */,
 			);
 			path = ImageList;
@@ -164,27 +158,9 @@
 			isa = PBXGroup;
 			children = (
 				26C0F0F62BFCD55A00FA82DD /* ProfileService.swift */,
-				267F70792B84FF10006CA194 /* ProfileViewController.swift */,
 				26C0F0FA2C08B47900FA82DD /* ProfileImageService.swift */,
 			);
 			path = Profile;
-			sourceTree = "<group>";
-		};
-		267F70822B9F74F7006CA194 /* SingleImage */ = {
-			isa = PBXGroup;
-			children = (
-				267F707C2B8D3228006CA194 /* SingleImageViewController.swift */,
-			);
-			path = SingleImage;
-			sourceTree = "<group>";
-		};
-		267F70872BA329F4006CA194 /* Auth */ = {
-			isa = PBXGroup;
-			children = (
-				267F70852BA0F1E1006CA194 /* AuthViewController.swift */,
-				267F70882BA32A19006CA194 /* WebViewViewController.swift */,
-			);
-			path = Auth;
 			sourceTree = "<group>";
 		};
 		267F708E2BAA01FE006CA194 /* OAuth2Service */ = {
@@ -210,6 +186,11 @@
 		26C0F1032C17949400FA82DD /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				267F70852BA0F1E1006CA194 /* AuthViewController.swift */,
+				267F70882BA32A19006CA194 /* WebViewViewController.swift */,
+				267F70792B84FF10006CA194 /* ProfileViewController.swift */,
+				267F70462B7BC767006CA194 /* ImagesListViewController.swift */,
+				267F707C2B8D3228006CA194 /* SingleImageViewController.swift */,
 				267F70912BAB3057006CA194 /* SplashViewController.swift */,
 			);
 			path = ViewControllers;
@@ -335,7 +316,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				260421282C57D7F70058F0D7 /* ImagesListServiceTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

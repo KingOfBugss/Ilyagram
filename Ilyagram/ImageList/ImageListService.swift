@@ -15,17 +15,18 @@ public struct Photo {
     let welcomeDescription: String?
     let thumbImageURL: String
     let largeImageURL: String
-    let isLiked: Bool
+    var isLiked: Bool
+    let thumbSize: CGSize
 }
 
 struct PhotoResualt: Codable {
     let id: String
     let createdAt: String?
     let width: Int
-    let heigth: Int
+    let height: Int
     let likes: Int
     let description: String?
-    var likeByUser: Bool
+    var likeByUser: Bool?
     let urls: UrlResults
 }
 
@@ -34,34 +35,54 @@ struct UrlResults: Codable {
     let full: String
 }
 
+struct LikeResult: Codable {
+    let photo: PhotoLikeResult
+}
+
+struct PhotoLikeResult: Codable {
+    let likedByUser: Bool
+}
+
 // MARK: - Class
 class ImageListService {
     
+    static let share = ImageListService()
     static let didChangeNotification = Notification.Name(rawValue: "ImagesListServiceDidChange")
     
     let requestBuilder = UrlRequestBuilder.share
     
     private let session = URLSession.shared
     private let imageOnPage = 10
-    
-    var photos: [Photo] = []
     private var lastLoadedPage: Int?
     private var currentPhotoTask: URLSessionTask?
+    private var currentLikeTask: URLSessionTask?
+    
+    var photos: [Photo] = []
 }
 
 extension ImageListService {
     func convertToViewModel(result photoResult: PhotoResualt) -> Photo {
         
+        let thumbWidth = 200.0
+        let aspectRatio = Double(photoResult.width) / Double(photoResult.height)
+        let thumbHeight = thumbWidth / aspectRatio
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
         
         return Photo(id: photoResult.id,
-                     size: CGSize(width: Double(photoResult.width), height: Double(photoResult.heigth)),
+                     size: CGSize(width: Double(photoResult.width), height: Double(photoResult.height)),
                      createdAt: formatter.date(from: photoResult.createdAt ?? ""),
                      welcomeDescription: photoResult.description,
                      thumbImageURL: photoResult.urls.small,
                      largeImageURL: photoResult.urls.full,
-                     isLiked: photoResult.likeByUser)
+                     isLiked: photoResult.likeByUser ?? false,
+                     thumbSize: CGSize(width: thumbWidth, height: thumbHeight)
+        )
+    }
+    
+    func makeLikeRequest(for id: String, with method: String) -> URLRequest? {
+        requestBuilder.makeHttpRequest(path: "/photos/\(id)/like",
+                                       httpMethod: method)
     }
     
     func makePhotosListRequest(page: Int) -> URLRequest? {
@@ -97,11 +118,10 @@ extension ImageListService {
                 self.currentPhotoTask = nil
                 switch result {
                 case .success(let photoResult):
-                    var photos: [Photo] = []
                     photoResult.forEach { photo in
-                        photos.append(self.convertToViewModel(result: photo))
+                        self.photos.append(self.convertToViewModel(result: photo))
                     }
-                    self.photos += photos
+                    self.photos += self.photos
                     self.lastLoadedPage = nextPage
                     NotificationCenter.default.post(
                         name: ImageListService.didChangeNotification,
@@ -109,7 +129,7 @@ extension ImageListService {
                         userInfo: ["Photos": self.photos]
                     )
                 case .failure(let error):
-                    print("ERROR: in task ImageListService \(error)")
+                    print("ERROR: in photoTask ImageListService \(error)")
                 }
             }
         }
@@ -117,5 +137,43 @@ extension ImageListService {
         self.currentPhotoTask = task
         task.resume()
     }
+    
+    func changeLike(
+        photoId: String,
+        indexPath: IndexPath,
+        isLike: Bool,
+        _ completion: @escaping (Result<Bool, Error>) -> Void
+    ) {
+        assert(Thread.isMainThread)
+        if currentLikeTask != nil { return }
+        currentLikeTask?.cancel()
+        let postMethodString = "POST"
+        let deleteMethodString = "DELETE"
+        let method = isLike ? postMethodString : deleteMethodString
+        
+        guard let request = makeLikeRequest(for: photoId, with: method) else {
+            assertionFailure("Invalid request")
+            print(NetworkError.invalidRequest)
+            return
+        }
+        
+        let task = session.load(for: request, decodableType: LikeResult.self) { [weak self] (result: Result< LikeResult, Error>) in
+            DispatchQueue.main.async { [weak self] in
+                guard let self else { return }
+                self.currentLikeTask = nil
+                switch result {
+                case .success(let photoLiked):
+                  let likedByUser = photoLiked.photo.likedByUser
+                  self.photos[indexPath.row].isLiked = likedByUser
+                  completion(.success(likedByUser))
+                case .failure(let error):
+                    print("ERROR: in LikeTask ImageListService \(error)")
+                }
+            }
+        }
+        self.currentLikeTask = task
+        task.resume()
+    }
+    
 }
 

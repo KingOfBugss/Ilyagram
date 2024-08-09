@@ -117,8 +117,6 @@ extension ProfileViewController: AuthViewControllerDelegate {
         navigationController.modalPresentationStyle = .fullScreen
         self.navigationController?.pushViewController(navigationController, animated: true)
 //        UIBlockingProgressHUD.window.rootViewController.
-//        UIBlockingProgressHUD.
-//        
         present(navigationController, animated: true)
         
         UIBlockingProgressHUD.dissmiss()

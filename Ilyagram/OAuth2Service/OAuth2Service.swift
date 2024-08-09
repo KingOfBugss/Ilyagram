@@ -33,9 +33,10 @@ class OAuth2Service {
         return window
     }
     
-    var screenWidth: CGFloat {
-        UIScreen.main.bounds.width
-    }
+//    var screenWidth: CGFloat {
+//        UIScreen.main.bounds.width
+//        UIScreen.main.bounds.height
+//    }
     
     func makeURLRequest(baseURL url: URL,
                         pathComponent component: String?,
