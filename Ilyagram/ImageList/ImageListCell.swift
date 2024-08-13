@@ -11,8 +11,7 @@ protocol ImagesListCellDelegate: AnyObject {
     func likeDidTapByUser(_ cell: ImagesListCell)
 }
 
-final class ImagesListCell: UITableViewCell {
-    static let reuseIdentifier = "ImagesListCell"
+public final class ImagesListCell: UITableViewCell {
     
     @IBOutlet var cellImage: UIImageView!
     @IBOutlet var likeButton: UIButton!
@@ -20,10 +19,12 @@ final class ImagesListCell: UITableViewCell {
     
     let placeholderImage = UIImage(named: "Stub")
     
+    static let reuseIdentifier = "ImagesListCell"
     weak var delegate: ImagesListCellDelegate?
     
-    override func prepareForReuse() {
+    public override func prepareForReuse() {
         super.prepareForReuse()
+        setLiked(false)
         cellImage.kf.cancelDownloadTask()
     }
     
@@ -31,26 +32,31 @@ final class ImagesListCell: UITableViewCell {
         delegate?.likeDidTapByUser(self)
     }
     
+    func setLiked(_ isLiked: Bool) {
+        let imageLiked = isLiked ? UIImage(named: "Active") : UIImage(named: "No Active")
+        likeButton.setImage(imageLiked, for: .normal)
+    }
+    
     func loadCell(from photo: Photo) -> Bool {
         let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
+        formatter.dateFormat = "yyyy-MM-dd"
         var status = false
         if let photoDate = photo.createdAt {
-          dateLabel.text = formatter.string(from: photoDate)
+            dateLabel.text = formatter.string(from: photoDate)
         }
         likeButton.accessibilityIdentifier = "LikeButton"
-        
+        setLiked(photo.isLiked)
         guard let photoURL = URL(string: photo.thumbImageURL) else { return status }
         cellImage.kf.indicatorType = .activity
         cellImage.kf.setImage(with: photoURL, placeholder: placeholderImage) { [weak self] result in
-          guard let self else { return }
-          switch result {
-          case .success:
-            status = true
-          case .failure(let error):
-            cellImage.image = placeholderImage
-            print("ERROR: \(error.localizedDescription)")
-          }
+            guard let self else { return }
+            switch result {
+            case .success:
+                status = true
+            case .failure(let error):
+                cellImage.image = placeholderImage
+                print("ERROR: \(error.localizedDescription)")
+            }
         }
         return status
     }

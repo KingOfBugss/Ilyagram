@@ -22,7 +22,7 @@ class UrlRequestBuilder {
         }
         
         var request = URLRequest(url: baseUrl)
-        request.httpMethod = "GET"
+        request.httpMethod = httpMethod ?? "GET"
         
         if let token = tokenStorage.token {
             request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")

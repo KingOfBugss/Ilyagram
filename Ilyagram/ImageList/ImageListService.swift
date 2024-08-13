@@ -49,10 +49,10 @@ class ImageListService {
     static let share = ImageListService()
     static let didChangeNotification = Notification.Name(rawValue: "ImagesListServiceDidChange")
     
-    let requestBuilder = UrlRequestBuilder.share
-    
+    private let requestBuilder = UrlRequestBuilder.share
     private let session = URLSession.shared
     private let imageOnPage = 10
+    
     private var lastLoadedPage: Int?
     private var currentPhotoTask: URLSessionTask?
     private var currentLikeTask: URLSessionTask?
@@ -147,9 +147,8 @@ extension ImageListService {
         assert(Thread.isMainThread)
         if currentLikeTask != nil { return }
         currentLikeTask?.cancel()
-        let postMethodString = "POST"
-        let deleteMethodString = "DELETE"
-        let method = isLike ? postMethodString : deleteMethodString
+        
+        let method = isLike ? "POST" : "DELETE"
         
         guard let request = makeLikeRequest(for: photoId, with: method) else {
             assertionFailure("Invalid request")
@@ -157,15 +156,15 @@ extension ImageListService {
             return
         }
         
-        let task = session.load(for: request, decodableType: LikeResult.self) { [weak self] (result: Result< LikeResult, Error>) in
-            DispatchQueue.main.async { [weak self] in
-                guard let self else { return }
+        let task = session.load(for: request, decodableType: LikeResult.self) { [weak self] (result: Result<LikeResult, Error>) in
+            guard let self else { return }
+            DispatchQueue.main.async {
                 self.currentLikeTask = nil
                 switch result {
                 case .success(let photoLiked):
-                  let likedByUser = photoLiked.photo.likedByUser
-                  self.photos[indexPath.row].isLiked = likedByUser
-                  completion(.success(likedByUser))
+                    let liked = photoLiked.photo.likedByUser
+                    self.photos[indexPath.row].isLiked = liked
+                    completion(.success(liked))
                 case .failure(let error):
                     print("ERROR: in LikeTask ImageListService \(error)")
                 }
@@ -174,6 +173,5 @@ extension ImageListService {
         self.currentLikeTask = task
         task.resume()
     }
-    
 }
 

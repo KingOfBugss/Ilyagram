@@ -55,24 +55,24 @@ class ImagesListViewController: UIViewController {
     
     func needLoadNextPhotos (indexPath: IndexPath) {
         if indexPath.row + 2 == photos.count {
-        imageListService.fetchPhotosNextPage()
-      }
+            imageListService.fetchPhotosNextPage()
+        }
     }
     
     func setupNotificationObserver() {
-      imageListServiceObserver = NotificationCenter.default
-        .addObserver(
-          forName: ImageListService.didChangeNotification,
-          object: nil,
-          queue: .main
-        ) { [weak self] _ in
-            self?.updateTableViewAnimated()
-        }
+        imageListServiceObserver = NotificationCenter.default
+            .addObserver(
+                forName: ImageListService.didChangeNotification,
+                object: nil,
+                queue: .main
+            ) { [weak self] _ in
+                self?.updateTableViewAnimated()
+            }
         self.updateTableViewAnimated()
     }
     
     func returnPhotoModelAt (indexPath: IndexPath) -> Photo? {
-      photos[indexPath.row]
+        photos[indexPath.row]
     }
     
     func updateTableViewAnimated() {
@@ -92,7 +92,6 @@ class ImagesListViewController: UIViewController {
     }
     
     func cellHeightRowAt(indexPath: IndexPath) -> CGFloat {
-//        guard let view else { return 0 }
         let imageInsets = (top: CGFloat(4), left: CGFloat(16), bottom: CGFloat(4), right: CGFloat(16))
         let thumbImageSize = photos[indexPath.row].thumbSize
         let imageViewWidth = tableView.bounds.width - imageInsets.left - imageInsets.right
@@ -102,25 +101,20 @@ class ImagesListViewController: UIViewController {
         return cellHeight
     }
     
-    func setLiked(_ isLiked: Bool) {
-        let imageLiked = isLiked ? UIImage(named: "No Active") : UIImage(named: "Active")
-        cell.likeButton.setImage(imageLiked, for: .normal)
-    }
-    
     func likeDidTapByUser(_ cell: ImagesListCell, indexPath: IndexPath) {
         let photo = photos[indexPath.row]
         UIBlockingProgressHUD.show()
         imageListService.changeLike(photoId: photo.id, indexPath: indexPath, isLike: !photo.isLiked) { [weak self ] result in
-          guard let self else { return }
-          switch result {
-          case .success(let isLiked):
-            self.photos[indexPath.row].isLiked = isLiked
-            setLiked(isLiked)
-            UIBlockingProgressHUD.dissmiss()
-          case .failure(let error):
-            UIBlockingProgressHUD.dissmiss()
-            print("ERROR: in likeDidTapByUser \(error)")
-          }
+            guard let self else { return }
+            switch result {
+            case .success(let isLiked):
+                self.photos[indexPath.row].isLiked = isLiked
+                cell.setLiked(isLiked)
+                UIBlockingProgressHUD.dissmiss()
+            case .failure(let error):
+                UIBlockingProgressHUD.dissmiss()
+                print("ERROR: in likeDidTapByUser \(error)")
+            }
         }
     }
 }
@@ -141,27 +135,28 @@ extension ImagesListViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(
+            withIdentifier: ImagesListCell.reuseIdentifier,
+            for: indexPath
+        ) as? ImagesListCell else {
+                return UITableViewCell()
+            }
+        
         cell.delegate = self
-        
-        let cell = tableView.dequeueReusableCell(withIdentifier: ImagesListCell.reuseIdentifier, for: indexPath)
-        
-        guard let imageListCell = cell as? ImagesListCell else {
-            return UITableViewCell()
-        }
         
         guard let photos = returnPhotoModelAt(indexPath: indexPath) else {
             preconditionFailure("ERROR: не могу достать фото из массива")
         }
         
-        if imageListCell.loadCell(from: photos) {
-          tableView.reloadRows(at: [indexPath], with: .automatic)
+        if cell.loadCell(from: photos) {
+            tableView.reloadRows(at: [indexPath], with: .automatic)
         }
-        return imageListCell
+        return cell
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         if let visibleRows = tableView.indexPathsForVisibleRows, indexPath == visibleRows.last {
-          needLoadNextPhotos(indexPath: indexPath)
+            needLoadNextPhotos(indexPath: indexPath)
         }
     }
 }
@@ -172,15 +167,3 @@ extension ImagesListViewController: ImagesListCellDelegate {
         likeDidTapByUser(cell, indexPath: indexPath)
     }
 }
-//extension ImagesListViewController {
-//    func configCell(for cell: ImagesListCell, with indexPath: IndexPath) {
-//        guard let photo = UIImage(named: photosName[indexPath.row]) else { return }
-//        
-//        cell.cellImage.image = photo
-//        cell.dateLabel.text = dateFormater.string(from: Date())
-//        
-//        let isLiked = indexPath.row % 2 == 0
-//        let imageLiked = isLiked ? UIImage(named: "No Active") : UIImage(named: "Active")
-//        cell.likeButton.setImage(imageLiked, for: .normal)
-//    }
-//}
