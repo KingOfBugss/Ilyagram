@@ -41,14 +41,15 @@ class ImagesListViewController: UIViewController {
             guard let viewController = segue.destination as? SingleImageViewController,
                   let indexPath = sender as? IndexPath
             else {
-                assertionFailure("Invalid segue destination")
+                super.prepare(for: segue, sender: sender)
                 return
             }
-            let imageName = photosName[indexPath.row]
-            let image = UIImage(named: "\(imageName)_full_size") ?? UIImage(named: imageName)
-            viewController.image = image
-        }
-        else {
+            guard let photo = returnPhotoModelAt(indexPath: indexPath) else {
+                print("ERROR: ImagesListViewController -> prepare")
+                return
+            }
+            viewController.largeImageURL = URL(string: photo.largeImageURL)
+        } else {
             super.prepare(for: segue, sender: sender)
         }
     }

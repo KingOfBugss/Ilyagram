@@ -19,6 +19,7 @@ class ProfileViewController: UIViewController {
     private let placeholder = UIImage(named: "PaceHolderForAvatar")
     private let profileService = ProfileService.shared
     private let profileImageService = ProfileImageService.shared
+    private let logOutService = LogOutService.shared
     
     private lazy var backButtonImageView = UIImageView()
     private lazy var imageAvatarView = UIImageView()
@@ -91,8 +92,7 @@ class ProfileViewController: UIViewController {
                 checkAvatar()
                 UIBlockingProgressHUD.dissmiss()
             case .failure(let error):
-//                self.showLoginAlert(error: error)
-                print("case .failure in fetchProfileImage")
+                print("ERROR:\(error) case .failure in fetchProfileImage")
                 break
             }
         }
@@ -101,10 +101,6 @@ class ProfileViewController: UIViewController {
 
 extension ProfileViewController: AuthViewControllerDelegate {
     func authViewController(_ vc: AuthViewController, didAuthenticateWithCode code: String) {
-//        dismiss(animated: true) { [weak self] in
-//            UIBlockingProgressHUD.show()
-//            guard let self = self else { return }
-//        }
     }
     
     @objc private func didTapBackButton() {
@@ -116,11 +112,17 @@ extension ProfileViewController: AuthViewControllerDelegate {
         let navigationController = UINavigationController(rootViewController: toAuthVc)
         navigationController.modalPresentationStyle = .fullScreen
         self.navigationController?.pushViewController(navigationController, animated: true)
-//        UIBlockingProgressHUD.window.rootViewController.
         present(navigationController, animated: true)
         
         UIBlockingProgressHUD.dissmiss()
-        AccessKeyStorage.shared.removeToken()
+        logOutService.resetToken()
+        logOutService.cleanCookie()
+        logOutService.resetPhotos()
+        logOutService.resetView()
+//
+//        guard let window = UIApplication.shared.windows.first else { preconditionFailure("Invalid Configuration") }
+//        let splashViewController = SplashViewController()
+//        window.rootViewController = splashViewController
     }
     
     func makeProfilePhotoImage() {

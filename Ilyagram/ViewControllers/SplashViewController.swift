@@ -58,7 +58,6 @@ class SplashViewController: UIViewController {
         guard let window = UIApplication.shared.windows.first else {
             print("Invalid Configuration")
             return
-            // fatalError("Invalid Configuration")
         }
             
         let tabBarController = UIStoryboard(name: "Main", bundle: .main).instantiateViewController(withIdentifier: "TabBarViewController")
@@ -76,6 +75,7 @@ extension SplashViewController: AuthViewControllerDelegate {
     }
 
     private func setupSplashViewController() {
+        view.accessibilityIdentifier = "SplashViewController"
         view.backgroundColor = UIColor(named: "YP Background")
         view.addSubview(splashScrennLogo)
         
@@ -100,14 +100,6 @@ extension SplashViewController: AuthViewControllerDelegate {
             }
         }
     }
-      
-    func resetToken() {
-        UIBlockingProgressHUD.dissmiss()
-        guard AccessKeyStorage.shared.removeToken() else {
-            assertionFailure("Cant remove token")
-            return
-        }
-    }
     
     func checkStatusOfAuth() {
         if  let token = tokenInStorage.token,
@@ -126,7 +118,6 @@ extension SplashViewController: AuthViewControllerDelegate {
           title: "Что-то пошло не так :(",
           message: "Не удалось войти в систему: \(error.localizedDescription)",
           buttonText: "Ok") {
-              
               self.checkStatusOfAuth()
         }
         self.alertPresenter?.showAlert(for: alertModel)

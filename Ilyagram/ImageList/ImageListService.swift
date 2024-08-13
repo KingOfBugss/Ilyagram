@@ -80,6 +80,11 @@ extension ImageListService {
         )
     }
     
+    func resetPhotos() {
+      lastLoadedPage = nil
+      photos = []
+    }
+    
     func makeLikeRequest(for id: String, with method: String) -> URLRequest? {
         requestBuilder.makeHttpRequest(path: "/photos/\(id)/like",
                                        httpMethod: method)
