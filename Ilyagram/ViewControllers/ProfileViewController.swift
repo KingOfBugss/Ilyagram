@@ -16,11 +16,12 @@ class ProfileViewController: UIViewController {
 
     private let backButtonImage = UIImage(named: "LogoutButton")
     private let avatarImage = UIImage(named: "ProfilePhoto")
-    private let placeholder = UIImage(named: "PaceHolderForAvatar")
+    private let placeholder = UIImage(named: "PlaceHolderForAvatar")
     private let profileService = ProfileService.shared
     private let profileImageService = ProfileImageService.shared
     private let logOutService = LogOutService.shared
     
+    private var alertPresenter: AlertPresenterProtocol?
     private lazy var backButtonImageView = UIImageView()
     private lazy var imageAvatarView = UIImageView()
     private lazy var nameLabel = UILabel()
@@ -32,7 +33,7 @@ class ProfileViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        alertPresenter = AlertPresenter(viewController: self)
         subscribe()
         fetchProfile(token: tokenInStorage.token ?? "")
         makeProfilePhotoImage()
@@ -97,32 +98,49 @@ class ProfileViewController: UIViewController {
             }
         }
     }
-}
-
-extension ProfileViewController: AuthViewControllerDelegate {
-    func authViewController(_ vc: AuthViewController, didAuthenticateWithCode code: String) {
-    }
     
     @objc private func didTapBackButton() {
-        
-        let storyboard = UIStoryboard(name: "Main", bundle: .main)
-        let toAuthVc = storyboard.instantiateViewController(withIdentifier: "AuthViewController") as? AuthViewController
-        guard let toAuthVc = toAuthVc else { return }
-        toAuthVc.delegate = self
-        let navigationController = UINavigationController(rootViewController: toAuthVc)
-        navigationController.modalPresentationStyle = .fullScreen
-        self.navigationController?.pushViewController(navigationController, animated: true)
-        present(navigationController, animated: true)
-        
-        UIBlockingProgressHUD.dissmiss()
+        showLogoutAlert()
+    }
+    
+    private func showLogoutAlert() {
+        DispatchQueue.main.async { [weak self] in
+            guard let self else { return }
+            let alertModel = AlertModel(
+                title: "Пока, пока!",
+                message: "Уверены, что хотите выйти?",
+                buttonText: "Да",
+                completion: { self.accountReset() },
+                secondButtonText: "Нет",
+                secondCompletion: { self.dismiss(animated: true) }
+            )
+            alertPresenter?.showAlert(for: alertModel)
+        }
+    }
+    
+    func accountReset(){
         logOutService.resetToken()
         logOutService.cleanCookie()
         logOutService.resetPhotos()
         logOutService.resetView()
-//
-//        guard let window = UIApplication.shared.windows.first else { preconditionFailure("Invalid Configuration") }
-//        let splashViewController = SplashViewController()
-//        window.rootViewController = splashViewController
+        //
+        //        let storyboard = UIStoryboard(name: "Main", bundle: .main)
+        //        let toAuthVc = storyboard.instantiateViewController(withIdentifier: "AuthViewController") as? AuthViewController
+        //        guard let toAuthVc = toAuthVc else { return }
+        //        toAuthVc.delegate = self
+        //        let navigationController = UINavigationController(rootViewController: toAuthVc)
+        //        navigationController.modalPresentationStyle = .fullScreen
+        //        self.navigationController?.pushViewController(navigationController, animated: true)
+        //        present(navigationController, animated: true)
+        
+        guard let window = UIApplication.shared.windows.first else { preconditionFailure("Invalid Configuration") }
+        let splashViewController = SplashViewController()
+        window.rootViewController = splashViewController
+    }
+}
+
+extension ProfileViewController: AuthViewControllerDelegate {
+    func authViewController(_ vc: AuthViewController, didAuthenticateWithCode code: String) {
     }
     
     func makeProfilePhotoImage() {
