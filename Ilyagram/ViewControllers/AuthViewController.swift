@@ -11,7 +11,7 @@ protocol AuthViewControllerDelegate: AnyObject {
     func authViewController(_ vc: AuthViewController, didAuthenticateWithCode code: String)
 }
 
-class AuthViewController: UIViewController {
+final class AuthViewController: UIViewController {
     
     var delegate: AuthViewControllerDelegate?
     
@@ -19,7 +19,7 @@ class AuthViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         configureAuthImageView()
         configurAuthButton()
         configureBackButton()
@@ -30,7 +30,7 @@ class AuthViewController: UIViewController {
         webView.delegate = self
         self.navigationController?.pushViewController(webView, animated: true)
     }
-  
+    
     private func configureAuthImageView() {
         let authImage = UIImage(named: "Login Screen Image")
         let authImageView = UIImageView(image: authImage)
@@ -80,7 +80,7 @@ class AuthViewController: UIViewController {
                 print("ERROR: Failed to prepare for *showWebViewControllerSegueIdentifire*")
                 
                 return
-//                fatalError("Failed to prepare for \(showWebViewControllerSegueIdentifire)")
+                //                fatalError("Failed to prepare for \(showWebViewControllerSegueIdentifire)")
             }
             webViewViewController.delegate = self
         } else {

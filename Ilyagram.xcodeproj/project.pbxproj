@@ -36,6 +36,7 @@
 		26C0F1072C18ED8E00FA82DD /* SwiftKeychainWrapper in Frameworks */ = {isa = PBXBuildFile; productRef = 26C0F1062C18ED8E00FA82DD /* SwiftKeychainWrapper */; };
 		26C0F10D2C1BAC4800FA82DD /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26C0F10C2C1BAC4800FA82DD /* TabBarController.swift */; };
 		26CDFD7F2C6BB35700DE58B1 /* LogOutService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26CDFD7E2C6BB35700DE58B1 /* LogOutService.swift */; };
+		26D6286B2C6E14EB00101FD8 /* Structures.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26D6286A2C6E14EB00101FD8 /* Structures.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -78,6 +79,7 @@
 		26C0F0FE2C12610600FA82DD /* AlertPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertPresenter.swift; sourceTree = "<group>"; };
 		26C0F10C2C1BAC4800FA82DD /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		26CDFD7E2C6BB35700DE58B1 /* LogOutService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogOutService.swift; sourceTree = "<group>"; };
+		26D6286A2C6E14EB00101FD8 /* Structures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Structures.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -144,6 +146,7 @@
 				267F704B2B7BC769006CA194 /* Assets.xcassets */,
 				267F70502B7BC769006CA194 /* Info.plist */,
 				26CDFD7E2C6BB35700DE58B1 /* LogOutService.swift */,
+				26D6286A2C6E14EB00101FD8 /* Structures.swift */,
 			);
 			path = Ilyagram;
 			sourceTree = "<group>";
@@ -333,6 +336,7 @@
 				267F70772B81394E006CA194 /* ImageListCell.swift in Sources */,
 				267F707A2B84FF10006CA194 /* ProfileViewController.swift in Sources */,
 				267F70432B7BC767006CA194 /* AppDelegate.swift in Sources */,
+				26D6286B2C6E14EB00101FD8 /* Structures.swift in Sources */,
 				267F70862BA0F1E1006CA194 /* AuthViewController.swift in Sources */,
 				2695B7C72BF63211003587FC /* JSONDecoder.swift in Sources */,
 				267F70922BAB3057006CA194 /* SplashViewController.swift in Sources */,

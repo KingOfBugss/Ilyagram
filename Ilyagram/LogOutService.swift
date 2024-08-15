@@ -25,17 +25,17 @@ class LogOutService {
     }
     
     func resetView() {
-      view?.loadProfile(nil)
+        view?.loadProfile(nil)
     }
-
+    
     func resetPhotos() {
-      ImageListService.share.resetPhotos()
+        ImageListService.share.resetPhotos()
     }
     
     func cleanCookie() {
         HTTPCookieStorage.shared.removeCookies(since: Date.distantPast)
         WKWebsiteDataStore.default().fetchDataRecords(ofTypes: WKWebsiteDataStore.allWebsiteDataTypes()) { records in records.forEach { record in WKWebsiteDataStore.default().removeData(ofTypes: record.dataTypes, for: [record], completionHandler: {})
-            }
+        }
         }
     }
 }

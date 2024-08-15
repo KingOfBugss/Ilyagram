@@ -8,7 +8,7 @@
 import UIKit
 import ProgressHUD
 
-class SplashViewController: UIViewController {
+final class SplashViewController: UIViewController {
     
     private var splashScrennLogo: UIImageView = {
         let imageSplashScreenLogo = UIImageView()
@@ -23,16 +23,12 @@ class SplashViewController: UIViewController {
     private let oauthService = OAuth2Service()
     private var tokenInStorage: AuthTokenStorageProtocol = AccessKeyStorage.shared
     private var alertPresenter: AlertPresenterProtocol?
- 
+    
     let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
         setupSplashViewController()
-        
-//  MARK: Функция для сброса токена в KingFisher
-//        resetToken()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -59,10 +55,10 @@ class SplashViewController: UIViewController {
             print("Invalid Configuration")
             return
         }
-            
+        
         let tabBarController = UIStoryboard(name: "Main", bundle: .main).instantiateViewController(withIdentifier: "TabBarViewController")
         window.rootViewController = tabBarController
-        }
+    }
 }
 
 extension SplashViewController: AuthViewControllerDelegate {
@@ -73,7 +69,7 @@ extension SplashViewController: AuthViewControllerDelegate {
             self.fetchOAuthToken(code)
         }
     }
-
+    
     private func setupSplashViewController() {
         view.accessibilityIdentifier = "SplashViewController"
         view.backgroundColor = UIColor(named: "YP Background")
@@ -91,7 +87,7 @@ extension SplashViewController: AuthViewControllerDelegate {
             UIBlockingProgressHUD.dissmiss()
             switch result {
             case .success:
-               checkStatusOfAuth()
+                checkStatusOfAuth()
                 self.switchToTabBarController()
             case .failure(let error):
                 self.showLoginAlert(error: error)
@@ -112,16 +108,16 @@ extension SplashViewController: AuthViewControllerDelegate {
     }
     
     func showLoginAlert(error: Error) {
-      DispatchQueue.main.async { [weak self] in
-        guard let self else { return }
-        let alertModel = AlertModel(
-          title: "Что-то пошло не так :(",
-          message: "Не удалось войти в систему: \(error.localizedDescription)",
-          buttonText: "Ok") {
-              self.checkStatusOfAuth()
+        DispatchQueue.main.async { [weak self] in
+            guard let self else { return }
+            let alertModel = AlertModel(
+                title: "Что-то пошло не так :(",
+                message: "Не удалось войти в систему: \(error.localizedDescription)",
+                buttonText: "Ok") {
+                    self.checkStatusOfAuth()
+                }
+            self.alertPresenter?.showAlert(for: alertModel)
         }
-        self.alertPresenter?.showAlert(for: alertModel)
-      }
     }
 }
 

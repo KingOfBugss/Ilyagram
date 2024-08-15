@@ -6,45 +6,8 @@
 //
 
 import Foundation
-
-// MARK: - Structures
-public struct Photo {
-    let id: String
-    let size: CGSize
-    let createdAt: Date?
-    let welcomeDescription: String?
-    let thumbImageURL: String
-    let largeImageURL: String
-    var isLiked: Bool
-    let thumbSize: CGSize
-}
-
-struct PhotoResualt: Codable {
-    let id: String
-    let createdAt: String?
-    let width: Int
-    let height: Int
-    let likes: Int
-    let description: String?
-    var likeByUser: Bool?
-    let urls: UrlResults
-}
-
-struct UrlResults: Codable {
-    let small: String
-    let full: String
-}
-
-struct LikeResult: Codable {
-    let photo: PhotoLikeResult
-}
-
-struct PhotoLikeResult: Codable {
-    let likedByUser: Bool
-}
-
 // MARK: - Class
-class ImageListService {
+final class ImageListService {
     
     static let share = ImageListService()
     static let didChangeNotification = Notification.Name(rawValue: "ImagesListServiceDidChange")
@@ -66,12 +29,10 @@ extension ImageListService {
         let thumbWidth = 200.0
         let aspectRatio = Double(photoResult.width) / Double(photoResult.height)
         let thumbHeight = thumbWidth / aspectRatio
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
         
         return Photo(id: photoResult.id,
                      size: CGSize(width: Double(photoResult.width), height: Double(photoResult.height)),
-                     createdAt: formatter.date(from: photoResult.createdAt ?? ""),
+                     createdAt: ISO8601DateFormatter().date(from: photoResult.createdAt ?? ""),
                      welcomeDescription: photoResult.description,
                      thumbImageURL: photoResult.urls.small,
                      largeImageURL: photoResult.urls.full,
@@ -81,8 +42,8 @@ extension ImageListService {
     }
     
     func resetPhotos() {
-      lastLoadedPage = nil
-      photos = []
+        lastLoadedPage = nil
+        photos = []
     }
     
     func makeLikeRequest(for id: String, with method: String) -> URLRequest? {
@@ -115,7 +76,6 @@ extension ImageListService {
             print("ERROR: guard in ImageListService -> request")
             return
         }
-        
         
         let task = session.load(for: request, decodableType: [PhotoResualt].self) { [weak self] (result: Result<[PhotoResualt], Error>) in
             guard let self else { return }

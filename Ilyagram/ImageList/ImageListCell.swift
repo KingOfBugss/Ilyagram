@@ -38,11 +38,9 @@ public final class ImagesListCell: UITableViewCell {
     }
     
     func loadCell(from photo: Photo) -> Bool {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd"
         var status = false
         if let photoDate = photo.createdAt {
-            dateLabel.text = formatter.string(from: photoDate)
+            dateLabel.text = Constants.dateFormatter.string(from: photoDate).capitalized
         }
         likeButton.accessibilityIdentifier = "LikeButton"
         setLiked(photo.isLiked)

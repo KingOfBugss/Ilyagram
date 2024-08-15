@@ -12,7 +12,7 @@ protocol AuthTokenStorageProtocol {
     var token: String? { get }
 }
 
-class AccessKeyStorage: AuthTokenStorageProtocol {
+final class AccessKeyStorage: AuthTokenStorageProtocol {
     
     static let shared = AccessKeyStorage()
     private let keyChainWrapper = KeychainWrapper.standard

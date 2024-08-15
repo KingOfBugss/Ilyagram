@@ -8,6 +8,12 @@
 import Foundation
 
 enum Constants {
+    static let dateFormatter: DateFormatter = {
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: "ru_RU")
+        dateFormatter.dateFormat = "dd MMMM YYYY"
+        return dateFormatter
+    }()
     static let accessKey = "NMC5oIL6HlR1i5WmEATn4E96CA97QuOdjPhkI_Hg90A"
     static let secretKey = "65r6Y-h9U-rL-4ZYR4NRxLM7soURAMcIp9_E1znzpQo"
     static let redirectURI = "urn:ietf:wg:oauth:2.0:oob"

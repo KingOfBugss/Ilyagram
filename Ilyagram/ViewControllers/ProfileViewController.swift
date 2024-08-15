@@ -12,8 +12,8 @@ protocol ProfileViewControllerProtocol: AnyObject {
   func loadProfile(_ profile: Profile?)
 }
 
-class ProfileViewController: UIViewController {
-
+final class ProfileViewController: UIViewController {
+    
     private let backButtonImage = UIImage(named: "LogoutButton")
     private let avatarImage = UIImage(named: "ProfilePhoto")
     private let placeholder = UIImage(named: "PlaceHolderForAvatar")
@@ -27,7 +27,7 @@ class ProfileViewController: UIViewController {
     private lazy var nameLabel = UILabel()
     private lazy var loginNameLabel = UILabel()
     private lazy var descriptionLabel = UILabel()
-
+    
     private var profileImageServiceObserver: NSObjectProtocol?
     private var tokenInStorage: AuthTokenStorageProtocol = AccessKeyStorage.shared
     
@@ -53,7 +53,7 @@ class ProfileViewController: UIViewController {
     }
     
     private func updateAvatar(url: URL) {
-    
+        
         //MARK: Kingfisher
         imageAvatarView.kf.indicatorType = .activity
         imageAvatarView.kf.setImage(with: url, placeholder: placeholder)
@@ -79,7 +79,7 @@ class ProfileViewController: UIViewController {
                 self?.fetchProfileImage(profileUsername: username)
                 self?.updateProfile()
             case .failure(let error):
-//                self?.showLoginAlert(error: error)
+                print("ERROR: \(error) in ProfileViewController -> fetchProfile")
                 UIBlockingProgressHUD.dissmiss()
             }
         }
@@ -123,7 +123,7 @@ class ProfileViewController: UIViewController {
         logOutService.cleanCookie()
         logOutService.resetPhotos()
         logOutService.resetView()
-        //
+        //         Старая версия перехода(ошибка при новом входе после разлогина)
         //        let storyboard = UIStoryboard(name: "Main", bundle: .main)
         //        let toAuthVc = storyboard.instantiateViewController(withIdentifier: "AuthViewController") as? AuthViewController
         //        guard let toAuthVc = toAuthVc else { return }
@@ -146,7 +146,7 @@ extension ProfileViewController: AuthViewControllerDelegate {
     func makeProfilePhotoImage() {
         imageAvatarView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(imageAvatarView)
-
+        
         imageAvatarView.image = avatarImage
         
         NSLayoutConstraint.activate([
@@ -199,7 +199,7 @@ extension ProfileViewController: AuthViewControllerDelegate {
     }
     
     func makeLogoutButton() {
-       backButtonImageView.image = backButtonImage
+        backButtonImageView.image = backButtonImage
         let logoutButton = UIButton.systemButton(with: backButtonImage!, //FAST UWRAPED!!!!
                                                  target: self,
                                                  action: #selector(self.didTapBackButton))
@@ -225,6 +225,6 @@ extension ProfileViewController: AuthViewControllerDelegate {
             self.loginNameLabel.text = ""
             self.descriptionLabel.text = ""
             self.imageAvatarView.image = placeholder
-          }
+        }
     }
 }

@@ -23,27 +23,27 @@ extension URLSession {
             let fulfillCompletionOnTheMainThread: (Result<T, Error>) -> Void = { result in
                 DispatchQueue.main.async {
                     completion(result)
-            }
-        }
-        
-        return dataTask(with: request) { data, response, error in
-            if let data = data, let response, let statusCode = (response as? HTTPURLResponse)?.statusCode {
-                if 200 ..< 300 ~= statusCode {
-                    do {
-                        let decoder = JSONDecoderSnakeCase()
-                        let result = try decoder.decode(T.self, from: data)
-                        fulfillCompletionOnTheMainThread(.success(result))
-                    } catch {
-                        fulfillCompletionOnTheMainThread(.failure(NetworkError.decodingError(error)))
-                    }
-                } else {
-                    fulfillCompletionOnTheMainThread(.failure(NetworkError.httpStatusCode(statusCode)))
                 }
-            } else if let error {
-                fulfillCompletionOnTheMainThread(.failure(NetworkError.urlRequestError(error)))
-            } else {
-                fulfillCompletionOnTheMainThread(.failure(NetworkError.urlSessionError))
+            }
+            
+            return dataTask(with: request) { data, response, error in
+                if let data = data, let response, let statusCode = (response as? HTTPURLResponse)?.statusCode {
+                    if 200 ..< 300 ~= statusCode {
+                        do {
+                            let decoder = JSONDecoderSnakeCase()
+                            let result = try decoder.decode(T.self, from: data)
+                            fulfillCompletionOnTheMainThread(.success(result))
+                        } catch {
+                            fulfillCompletionOnTheMainThread(.failure(NetworkError.decodingError(error)))
+                        }
+                    } else {
+                        fulfillCompletionOnTheMainThread(.failure(NetworkError.httpStatusCode(statusCode)))
+                    }
+                } else if let error {
+                    fulfillCompletionOnTheMainThread(.failure(NetworkError.urlRequestError(error)))
+                } else {
+                    fulfillCompletionOnTheMainThread(.failure(NetworkError.urlSessionError))
+                }
             }
         }
-    }
 }

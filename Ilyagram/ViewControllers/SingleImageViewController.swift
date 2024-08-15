@@ -7,9 +7,8 @@
 
 import UIKit
 
-class SingleImageViewController: UIViewController {
-
-    //MARK
+final class SingleImageViewController: UIViewController {
+    
     @IBOutlet private var singleImageView: UIImageView!
     @IBOutlet private var backButton: UIButton!
     @IBOutlet private var scrollView: UIScrollView!
@@ -19,7 +18,7 @@ class SingleImageViewController: UIViewController {
     @IBAction private func didTapeBackward(_ sender: Any) {
         dismiss(animated: true)
     }
-
+    
     @IBAction private func didTapeShareButton(_ sender: UIButton) {
         let share = UIActivityViewController(activityItems: [image as Any], applicationActivities: nil)
         
@@ -79,7 +78,7 @@ class SingleImageViewController: UIViewController {
             shareButton.heightAnchor.constraint(equalToConstant: 50)
         ])
     }
-
+    
     private func setSingleImageViewConstrain() {
         singleImageView.translatesAutoresizingMaskIntoConstraints = false
         view.bringSubviewToFront(backButton)
@@ -126,18 +125,18 @@ class SingleImageViewController: UIViewController {
 
 extension SingleImageViewController {
     func downloadSingleImage() {
-      UIBlockingProgressHUD.show()
-      singleImageView.kf.setImage(with: largeImageURL) { [weak self] result in
-        UIBlockingProgressHUD.dissmiss()
-        guard let self else { return }
-        switch result {
-        case .success(let imageResult):
-          self.image = imageResult.image
-          self.rescaleAndCenterImageInScrollView(image: imageResult.image)
-        case .failure:
-          print("ERROR: SingleImageViewController -> downloadImage")
+        UIBlockingProgressHUD.show()
+        singleImageView.kf.setImage(with: largeImageURL) { [weak self] result in
+            UIBlockingProgressHUD.dissmiss()
+            guard let self else { return }
+            switch result {
+            case .success(let imageResult):
+                self.image = imageResult.image
+                self.rescaleAndCenterImageInScrollView(image: imageResult.image)
+            case .failure:
+                print("ERROR: SingleImageViewController -> downloadImage")
+            }
         }
-      }
     }
 }
 

@@ -11,14 +11,7 @@ protocol OAuth2ServiceProtocol: AnyObject {
     func fetchOAuthToken(code: String, completion: @escaping (Result<String, Error>) -> Void)
 }
 
-struct OAuthTokenResponseBody: Decodable {
-    let accessToken: String
-    let tokenType: String
-    let scope: String
-    let createdAt: Int
-}
-
-class OAuth2Service {
+final class OAuth2Service {
     
     private let storage = AccessKeyStorage()
     private var currentUrlTask: URLSessionTask?
@@ -32,11 +25,6 @@ class OAuth2Service {
         }
         return window
     }
-    
-//    var screenWidth: CGFloat {
-//        UIScreen.main.bounds.width
-//        UIScreen.main.bounds.height
-//    }
     
     func makeURLRequest(baseURL url: URL,
                         pathComponent component: String?,
@@ -100,7 +88,7 @@ class OAuth2Service {
                                      requestHttpMethod: "POST",
                                      addValue: nil,
                                      forHTTPHeaderField: nil)
-  
+        
         let task = session.load(for: request, decodableType: OAuthTokenResponseBody.self) { [weak self] result in
             guard let self else { return }
             

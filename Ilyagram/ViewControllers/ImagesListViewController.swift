@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ImagesListViewController: UIViewController {
+final class ImagesListViewController: UIViewController {
     
     @IBOutlet private var tableView: UITableView!
     
@@ -19,13 +19,6 @@ class ImagesListViewController: UIViewController {
     var photos: [Photo] = []
     
     private var imageListServiceObserver: NSObjectProtocol?
-    
-    private lazy var dateFormater: DateFormatter = {
-        let formater = DateFormatter()
-        formater.dateStyle = .long
-        formater.timeStyle = .none
-        return formater
-    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -140,8 +133,8 @@ extension ImagesListViewController: UITableViewDataSource {
             withIdentifier: ImagesListCell.reuseIdentifier,
             for: indexPath
         ) as? ImagesListCell else {
-                return UITableViewCell()
-            }
+            return UITableViewCell()
+        }
         
         cell.delegate = self
         

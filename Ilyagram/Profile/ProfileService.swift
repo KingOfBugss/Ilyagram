@@ -12,29 +12,6 @@ protocol ProfileLoading: AnyObject {
     func fetchProfile(_ completion: @escaping(Result<Profile, Error>)-> Void)
 }
 
-struct UserResult: Decodable {
-    let profileImage: ProfileImage
-}
-
-struct ProfileImage: Decodable {
-    let small: String
-    let medium: String
-}
-
-struct ProfileResult: Codable {
-    let username: String
-    let firstName: String?
-    let lastName: String?
-    let bio: String?
-}
-
-struct Profile {
-    let username: String
-    let name: String
-    let loginName: String
-    let bio: String?
-}
-
 final class ProfileService {
     static let shared = ProfileService()
     
@@ -50,15 +27,6 @@ final class ProfileService {
     
     func mackeProfileRequest() -> URLRequest? {
         requestBuilder.makeHttpRequest(path: "/me")
-    }
-}
-
-extension Profile {
-    init(profile: ProfileResult) {
-        self.init(username: profile.username,
-                  name: "\(profile.firstName ?? "") \(profile.lastName ?? "")",
-                  loginName: "\(profile.username)",
-                  bio: profile.bio)
     }
 }
 
