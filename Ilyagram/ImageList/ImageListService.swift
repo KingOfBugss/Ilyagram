@@ -32,7 +32,7 @@ extension ImageListService {
         
         return Photo(id: photoResult.id,
                      size: CGSize(width: Double(photoResult.width), height: Double(photoResult.height)),
-                     createdAt: ISO8601DateFormatter().date(from: photoResult.createdAt ?? ""),
+                     createdAt: Constants.dateIsoFormatter.date(from: photoResult.createdAt ?? ""),
                      welcomeDescription: photoResult.description,
                      thumbImageURL: photoResult.urls.small,
                      largeImageURL: photoResult.urls.full,
