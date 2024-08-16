@@ -116,6 +116,8 @@
 			isa = PBXGroup;
 			children = (
 				267F70412B7BC767006CA194 /* Ilyagram */,
+				267F704B2B7BC769006CA194 /* Assets.xcassets */,
+				267F70502B7BC769006CA194 /* Info.plist */,
 				267F70402B7BC767006CA194 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -132,21 +134,16 @@
 		267F70412B7BC767006CA194 /* Ilyagram */ = {
 			isa = PBXGroup;
 			children = (
-				26C0F10C2C1BAC4800FA82DD /* TabBarController.swift */,
-				260421302C62C1BA0058F0D7 /* Storyboards */,
+				26D6286E2C6FB38100101FD8 /* Delegate */,
+				26D6286D2C6FB31300101FD8 /* SinglImageList */,
+				26D6286C2C6FB2C800101FD8 /* Auth */,
 				26C0F1042C1794E600FA82DD /* Alert */,
-				26C0F1032C17949400FA82DD /* ViewControllers */,
 				26C0F0F32BFBE7E200FA82DD /* Service */,
-				267F70832B9F7551006CA194 /* Constants.swift */,
-				267F70422B7BC767006CA194 /* AppDelegate.swift */,
-				267F70442B7BC767006CA194 /* SceneDelegate.swift */,
-				267F708E2BAA01FE006CA194 /* OAuth2Service */,
 				267F707B2B8D0893006CA194 /* Profile */,
 				267F70782B8139A6006CA194 /* ImageList */,
-				267F704B2B7BC769006CA194 /* Assets.xcassets */,
-				267F70502B7BC769006CA194 /* Info.plist */,
-				26CDFD7E2C6BB35700DE58B1 /* LogOutService.swift */,
+				260421302C62C1BA0058F0D7 /* Storyboards */,
 				26D6286A2C6E14EB00101FD8 /* Structures.swift */,
+				267F70832B9F7551006CA194 /* Constants.swift */,
 			);
 			path = Ilyagram;
 			sourceTree = "<group>";
@@ -154,6 +151,8 @@
 		267F70782B8139A6006CA194 /* ImageList */ = {
 			isa = PBXGroup;
 			children = (
+				26C0F10C2C1BAC4800FA82DD /* TabBarController.swift */,
+				267F70462B7BC767006CA194 /* ImagesListViewController.swift */,
 				267F70762B81394E006CA194 /* ImageListCell.swift */,
 				2604211F2C5414F50058F0D7 /* ImageListService.swift */,
 			);
@@ -163,6 +162,8 @@
 		267F707B2B8D0893006CA194 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
+				26CDFD7E2C6BB35700DE58B1 /* LogOutService.swift */,
+				267F70792B84FF10006CA194 /* ProfileViewController.swift */,
 				26C0F0F62BFCD55A00FA82DD /* ProfileService.swift */,
 				26C0F0FA2C08B47900FA82DD /* ProfileImageService.swift */,
 			);
@@ -181,25 +182,13 @@
 		26C0F0F32BFBE7E200FA82DD /* Service */ = {
 			isa = PBXGroup;
 			children = (
+				267F70912BAB3057006CA194 /* SplashViewController.swift */,
 				26C0F0F42BFC9D7D00FA82DD /* UIBlockingProgressHUD.swift */,
 				267F708C2BA8E3E8006CA194 /* URLSession+data.swift */,
 				2695B7C62BF63211003587FC /* JSONDecoder.swift */,
 				26C0F0F82BFD373F00FA82DD /* UrlRequestBuilder.swift */,
 			);
 			path = Service;
-			sourceTree = "<group>";
-		};
-		26C0F1032C17949400FA82DD /* ViewControllers */ = {
-			isa = PBXGroup;
-			children = (
-				267F70852BA0F1E1006CA194 /* AuthViewController.swift */,
-				267F70882BA32A19006CA194 /* WebViewViewController.swift */,
-				267F70792B84FF10006CA194 /* ProfileViewController.swift */,
-				267F70462B7BC767006CA194 /* ImagesListViewController.swift */,
-				267F707C2B8D3228006CA194 /* SingleImageViewController.swift */,
-				267F70912BAB3057006CA194 /* SplashViewController.swift */,
-			);
-			path = ViewControllers;
 			sourceTree = "<group>";
 		};
 		26C0F1042C1794E600FA82DD /* Alert */ = {
@@ -209,6 +198,33 @@
 				26C0F0FC2C111BC800FA82DD /* AlertModel.swift */,
 			);
 			path = Alert;
+			sourceTree = "<group>";
+		};
+		26D6286C2C6FB2C800101FD8 /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				267F708E2BAA01FE006CA194 /* OAuth2Service */,
+				267F70882BA32A19006CA194 /* WebViewViewController.swift */,
+				267F70852BA0F1E1006CA194 /* AuthViewController.swift */,
+			);
+			path = Auth;
+			sourceTree = "<group>";
+		};
+		26D6286D2C6FB31300101FD8 /* SinglImageList */ = {
+			isa = PBXGroup;
+			children = (
+				267F707C2B8D3228006CA194 /* SingleImageViewController.swift */,
+			);
+			path = SinglImageList;
+			sourceTree = "<group>";
+		};
+		26D6286E2C6FB38100101FD8 /* Delegate */ = {
+			isa = PBXGroup;
+			children = (
+				267F70422B7BC767006CA194 /* AppDelegate.swift */,
+				267F70442B7BC767006CA194 /* SceneDelegate.swift */,
+			);
+			path = Delegate;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
