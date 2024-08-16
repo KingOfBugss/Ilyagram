@@ -116,8 +116,6 @@
 			isa = PBXGroup;
 			children = (
 				267F70412B7BC767006CA194 /* Ilyagram */,
-				267F704B2B7BC769006CA194 /* Assets.xcassets */,
-				267F70502B7BC769006CA194 /* Info.plist */,
 				267F70402B7BC767006CA194 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -144,6 +142,8 @@
 				260421302C62C1BA0058F0D7 /* Storyboards */,
 				26D6286A2C6E14EB00101FD8 /* Structures.swift */,
 				267F70832B9F7551006CA194 /* Constants.swift */,
+				267F70502B7BC769006CA194 /* Info.plist */,
+				267F704B2B7BC769006CA194 /* Assets.xcassets */,
 			);
 			path = Ilyagram;
 			sourceTree = "<group>";
