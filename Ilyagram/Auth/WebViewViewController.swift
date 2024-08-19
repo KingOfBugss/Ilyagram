@@ -13,61 +13,33 @@ protocol WebViewViewControllerDelegate: AnyObject {
     func webViewViewControllerDidCancel(_ vc: WebViewViewController)
 }
 
-enum WebViewConstants {
-    static let unsplashAuthorizeURLString = "https://unsplash.com/oauth/authorize"
+protocol WebViewViewControllerProtocol: AnyObject {
+    var presenter: WebViewPresenterProtocol? { get set }
+    func load(request: URLRequest)
+    func setProgressValue(_ newValue: Float)
+    func setProgressHidden(_ isHidden: Bool)
 }
 
 final class WebViewViewController: UIViewController {
     
-    private var estimateProgressObservation: NSKeyValueObservation?
-    
-    private lazy var backwardButton: UIButton = {
-        let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.setImage(UIImage(named: "YP Black"), for: .normal)
-        button.addTarget(self, action: #selector(didTapeBackwardButton), for: .touchUpInside)
-        return button
-    }()
-    
-    private var uiWkWeb: WKWebView = {
-        let view = WKWebView()
-        
-        view.backgroundColor = .white
-        view.translatesAutoresizingMaskIntoConstraints = false
-        
-        return view
-    }()
-    
-    private let progresView = UIProgressView()
-    private let cache = URLCache()
+    var presenter: WebViewPresenterProtocol?
     
     weak var delegate: WebViewViewControllerDelegate?
     
+    private var estimateProgressObservation: NSKeyValueObservation?
+    private var uiWkWeb = WKWebView()
+    private var progresView = UIProgressView()
+    private var backwardButton = UIButton()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        loadAuthView()
-        
-        WKWebsiteDataStore.default().removeData(ofTypes: WKWebsiteDataStore.allWebsiteDataTypes(), modifiedSince: Date(timeIntervalSince1970: 0), completionHandler: {})
-        
+        createWebView()
+        creatBackwardButton()
+        createProgressView()
+        presenter?.viewDidLoad()
+        addWebViewLoadingObserver()
+
         uiWkWeb.navigationDelegate = self
-        view.addSubview(uiWkWeb)
-        
-        NSLayoutConstraint.activate([
-            uiWkWeb.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            uiWkWeb.leftAnchor.constraint(equalTo: view.leftAnchor),
-            uiWkWeb.rightAnchor.constraint(equalTo: view.rightAnchor),
-            uiWkWeb.topAnchor.constraint(equalTo: view.topAnchor)
-        ])
-        
-        progresView.tintColor = UIColor(named: "YP Background")
-        progresView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(progresView)
-        
-        NSLayoutConstraint.activate([
-            progresView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            progresView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 0),
-            progresView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: 0)])
     }
     
     @objc private func didTapeBackwardButton() {
@@ -76,26 +48,47 @@ final class WebViewViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        addWebViewLoadingObserver()
     }
     
-    private func setProgressValue(_ newValue: Float) {
-        progresView.progress = newValue
+    private func creatBackwardButton() {
+        backwardButton.translatesAutoresizingMaskIntoConstraints = false
+        backwardButton.setImage(UIImage(named: "Backword_button"), for: .normal)
+        backwardButton.tintColor = UIColor(named: "YP Background")
+        backwardButton.addTarget(self, action: #selector(didTapeBackwardButton), for: .touchUpInside)
+        
+        view.addSubview(backwardButton)
+        
+        NSLayoutConstraint.activate([
+            backwardButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 9),
+            backwardButton.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 9)
+        ])
     }
     
-    private func setProgressHidden(_ isHidden: Bool) {
-        progresView.isHidden = isHidden
+    private func createWebView() {
+        uiWkWeb.backgroundColor = .white
+        uiWkWeb.translatesAutoresizingMaskIntoConstraints = false
+        
+        view.addSubview(uiWkWeb)
+        
+        NSLayoutConstraint.activate([
+            uiWkWeb.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            uiWkWeb.leftAnchor.constraint(equalTo: view.leftAnchor),
+            uiWkWeb.rightAnchor.constraint(equalTo: view.rightAnchor),
+            uiWkWeb.topAnchor.constraint(equalTo: view.topAnchor)
+        ])
     }
     
-    private func shouldHideProgress(for value: Float) -> Bool {
-        (1 - value) <= 0.0001
-    }
-    
-    private func didUpdateProgressValue(_ newValue: Double) {
-        let newProgressValue = Float(newValue)
-        setProgressValue(newProgressValue)
-        let shouldHideProgress = shouldHideProgress(for: newProgressValue)
-        setProgressHidden(shouldHideProgress)
+    private func createProgressView() {
+        progresView.tintColor = UIColor(named: "YP Background")
+        progresView.translatesAutoresizingMaskIntoConstraints = false
+        
+        view.addSubview(progresView)
+        
+        NSLayoutConstraint.activate([
+            progresView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            progresView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 0),
+            progresView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: 0),
+        ])
     }
     
     private func addWebViewLoadingObserver() {
@@ -103,13 +96,12 @@ final class WebViewViewController: UIViewController {
                                                        options: [],
                                                        changeHandler: { [weak self] _, _ in
             guard let self = self else { return }
-            didUpdateProgressValue(uiWkWeb.estimatedProgress)
+            presenter?.didUpdateProgressValue(uiWkWeb.estimatedProgress)
         })
     }
 }
 
 extension WebViewViewController: WKNavigationDelegate {
-    
     func webView(_ webView: WKWebView,
                  decidePolicyFor navigationAction: WKNavigationAction,
                  decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
@@ -121,41 +113,24 @@ extension WebViewViewController: WKNavigationDelegate {
         }
     }
     
-    private func code(from navigationAction: WKNavigationAction) -> String? {
-        if
-            let url = navigationAction.request.url,
-            let urlComponents = URLComponents(string: url.absoluteString),
-            urlComponents.path == "/oauth/authorize/native",
-            let items = urlComponents.queryItems,
-            let codeItem = items.first(where: { $0.name == "code" })
-        {
-            return codeItem.value
-        } else {
-            return nil
+    func code(from navigationAction: WKNavigationAction) -> String? {
+        if let url = navigationAction.request.url {
+            return presenter?.code(from: url)
         }
+        return nil
     }
 }
 
-private extension WebViewViewController {
-    func loadAuthView() {
-        guard var urlComponents = URLComponents(string: WebViewConstants.unsplashAuthorizeURLString) else {
-            print("guard URLComponents")
-            return
-        }
-        
-        urlComponents.queryItems = [
-            URLQueryItem(name: "client_id", value: Constants.accessKey),
-            URLQueryItem(name: "redirect_uri", value: Constants.redirectURI),
-            URLQueryItem(name: "response_type", value: "code"),
-            URLQueryItem(name: "scope", value: Constants.accessScope)
-        ]
-        guard let url = urlComponents.url else {
-            print("guard URL")
-            
-            return
-        }
-        
-        let request = URLRequest(url: url)
+extension WebViewViewController: WebViewViewControllerProtocol {
+    func load(request: URLRequest) {
         uiWkWeb.load(request)
+    }
+    
+    func setProgressValue(_ newValue: Float) {
+        progresView.progress = newValue
+    }
+    
+    func setProgressHidden(_ isHidden: Bool) {
+        progresView.isHidden = isHidden
     }
 }

@@ -37,6 +37,7 @@
 		26C0F10D2C1BAC4800FA82DD /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26C0F10C2C1BAC4800FA82DD /* TabBarController.swift */; };
 		26CDFD7F2C6BB35700DE58B1 /* LogOutService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26CDFD7E2C6BB35700DE58B1 /* LogOutService.swift */; };
 		26D6286B2C6E14EB00101FD8 /* Structures.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26D6286A2C6E14EB00101FD8 /* Structures.swift */; };
+		26D628722C6FB8EA00101FD8 /* WebViewPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26D628712C6FB8EA00101FD8 /* WebViewPresenter.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -80,6 +81,7 @@
 		26C0F10C2C1BAC4800FA82DD /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		26CDFD7E2C6BB35700DE58B1 /* LogOutService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogOutService.swift; sourceTree = "<group>"; };
 		26D6286A2C6E14EB00101FD8 /* Structures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Structures.swift; sourceTree = "<group>"; };
+		26D628712C6FB8EA00101FD8 /* WebViewPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewPresenter.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -206,6 +208,7 @@
 				267F708E2BAA01FE006CA194 /* OAuth2Service */,
 				267F70882BA32A19006CA194 /* WebViewViewController.swift */,
 				267F70852BA0F1E1006CA194 /* AuthViewController.swift */,
+				26D628712C6FB8EA00101FD8 /* WebViewPresenter.swift */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -365,6 +368,7 @@
 				267F70892BA32A19006CA194 /* WebViewViewController.swift in Sources */,
 				26C0F0FF2C12610600FA82DD /* AlertPresenter.swift in Sources */,
 				267F708B2BA89BDD006CA194 /* OAuth2Service.swift in Sources */,
+				26D628722C6FB8EA00101FD8 /* WebViewPresenter.swift in Sources */,
 				26C0F0FB2C08B47900FA82DD /* ProfileImageService.swift in Sources */,
 				26C0F10D2C1BAC4800FA82DD /* TabBarController.swift in Sources */,
 				267F70452B7BC767006CA194 /* SceneDelegate.swift in Sources */,

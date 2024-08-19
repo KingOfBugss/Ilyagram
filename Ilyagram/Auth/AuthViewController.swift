@@ -13,7 +13,13 @@ protocol AuthViewControllerDelegate: AnyObject {
 
 final class AuthViewController: UIViewController {
     
+    weak var webViewDelegate: WebViewViewControllerDelegate?
+    
+    var webViewPresenter = WebViewPresenter()
+    
     var delegate: AuthViewControllerDelegate?
+    
+    var webViewViewController = WebViewViewController()
     
     private let showWebViewControllerSegueIdentifire = "SegueToAuth"
     
@@ -26,9 +32,14 @@ final class AuthViewController: UIViewController {
     }
     
     @objc func didTapeAuthButton() {
-        let webView = WebViewViewController()
-        webView.delegate = self
-        self.navigationController?.pushViewController(webView, animated: true)
+        webViewViewController.delegate = self
+        webViewViewController.presenter = webViewPresenter
+        webViewPresenter.view = webViewViewController
+        webViewViewController.modalPresentationStyle = .fullScreen
+        present(webViewViewController, animated: true)
+//        let webView = WebViewViewController()
+//        webView.delegate = self
+//        self.navigationController?.pushViewController(webView, animated: true)
     }
     
     private func configureAuthImageView() {
@@ -80,8 +91,9 @@ final class AuthViewController: UIViewController {
                 print("ERROR: Failed to prepare for *showWebViewControllerSegueIdentifire*")
                 
                 return
-                //                fatalError("Failed to prepare for \(showWebViewControllerSegueIdentifire)")
             }
+            webViewPresenter.view = webViewViewController
+            webViewViewController.presenter = webViewPresenter
             webViewViewController.delegate = self
         } else {
             super.prepare(for: segue, sender: sender)
