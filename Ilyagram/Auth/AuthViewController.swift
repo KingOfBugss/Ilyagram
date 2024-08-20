@@ -37,9 +37,6 @@ final class AuthViewController: UIViewController {
         webViewPresenter.view = webViewViewController
         webViewViewController.modalPresentationStyle = .fullScreen
         present(webViewViewController, animated: true)
-//        let webView = WebViewViewController()
-//        webView.delegate = self
-//        self.navigationController?.pushViewController(webView, animated: true)
     }
     
     private func configureAuthImageView() {
@@ -92,8 +89,11 @@ final class AuthViewController: UIViewController {
                 
                 return
             }
-            webViewPresenter.view = webViewViewController
+            
+            let authHelper = AuthHelper()
+            let webViewPresenter = WebViewPresenter(authHelper: authHelper)
             webViewViewController.presenter = webViewPresenter
+            webViewPresenter.view = webViewViewController
             webViewViewController.delegate = self
         } else {
             super.prepare(for: segue, sender: sender)

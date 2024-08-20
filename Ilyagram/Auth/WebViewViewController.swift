@@ -38,7 +38,6 @@ final class WebViewViewController: UIViewController {
         createProgressView()
         presenter?.viewDidLoad()
         addWebViewLoadingObserver()
-
         uiWkWeb.navigationDelegate = self
     }
     
