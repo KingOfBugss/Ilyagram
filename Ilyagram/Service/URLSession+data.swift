@@ -1,0 +1,49 @@
+//
+//  URLSession+data.swift
+//  Ilyagram
+//
+//  Created by Ilya Shirokov on 19.03.2024.
+//
+
+import Foundation
+
+enum NetworkError: Error {
+    case httpStatusCode(Int)
+    case urlRequestError(Error)
+    case urlSessionError
+    case invalidRequest
+    case decodingError(Error)
+}
+
+extension URLSession {
+    func load<T: Decodable>(
+        for request: URLRequest,
+        decodableType: T.Type,
+        completion: @escaping (Result<T, Error>) -> Void) -> URLSessionTask {
+            let fulfillCompletionOnTheMainThread: (Result<T, Error>) -> Void = { result in
+                DispatchQueue.main.async {
+                    completion(result)
+                }
+            }
+            
+            return dataTask(with: request) { data, response, error in
+                if let data = data, let response, let statusCode = (response as? HTTPURLResponse)?.statusCode {
+                    if 200 ..< 300 ~= statusCode {
+                        do {
+                            let decoder = JSONDecoderSnakeCase()
+                            let result = try decoder.decode(T.self, from: data)
+                            fulfillCompletionOnTheMainThread(.success(result))
+                        } catch {
+                            fulfillCompletionOnTheMainThread(.failure(NetworkError.decodingError(error)))
+                        }
+                    } else {
+                        fulfillCompletionOnTheMainThread(.failure(NetworkError.httpStatusCode(statusCode)))
+                    }
+                } else if let error {
+                    fulfillCompletionOnTheMainThread(.failure(NetworkError.urlRequestError(error)))
+                } else {
+                    fulfillCompletionOnTheMainThread(.failure(NetworkError.urlSessionError))
+                }
+            }
+        }
+}
